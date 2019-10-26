@@ -1,2 +1,117 @@
 /* Project Tellus css file */
 
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+footer {
+	position: absolute;
+	width:100%;
+	height:60px;
+}
+
+small {
+	font-family: arial;
+}
+
+#footer-content {
+	text-align: center;
+	padding: 10px 0px 10px 0px;
+	line-height: 20px;
+}
+
+p {
+	font-family: arial;
+	font-size: 18px;
+    margin-bottom: 10px;
+}
+
+h1,h3 {
+	font-family: arial;
+}
+
+.main-container {
+	min-height: 90%;
+	position: relative;
+}
+
+.header {
+	margin: auto;
+	width: 95%;
+}
+
+.top-bar {
+	overflow: hidden;
+	padding-top: 20px;
+}
+
+.main-bar {
+	margin: auto;
+	width: 95%;
+	padding: 40px 0px 100px 0px;
+}
+
+.gen-info {
+	margin-bottom: 100px;
+}
+
+.proj-bx {
+	border: 1px solid #4B4B4C;
+	border-radius: 6px;
+	padding: 10px 10px 30px 15px;
+}
+
+.form-lst {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+input {
+	height: 30px;
+	padding-left: 5px;
+	border-radius: 2px;
+	border: 1px solid #EEEEEE;
+
+	font-family: arial;
+	font-size: 14px;
+}
+
+select {
+	height: 30px;
+	padding-left: 5px;
+	border-radius: 2px;
+	border: 1px solid #EEEEEE;
+
+	font-family: arial;
+	font-size: 14px;
+	width: 130px;
+}
+
+#id_date_start_month, #id_date_end_month {
+	width: 90px;
+	margin-right: 5px;
+}
+
+#id_date_start_day, #id_date_end_day {
+	width: 50px;
+	margin-right: 5px;
+}
+#id_date_start_year, #id_date_end_year {
+	width: 70px;
+}
+
+.submit-btn {
+	height: 35px;
+	width: 75px;
+	font-weight: 600;
+	color: #ffff;
+	background-color: #1a8dff;
+	border-radius: 6px;
+	border:none;
+}
+
+
