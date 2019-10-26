@@ -21,12 +21,12 @@
             </div>
 
             <div class="form-bx">
-                <form method="post" id="kickForm">
+                <form method="post" id="kickForm" data-cat-url="{% url 'ajax-load-categories' %}" novalidate>
                     {% csrf_token %}
                     <div class="form-content">
                         <div class="form-bx-1 form-lst">
                             <p>Main category</p>
-                            {{form_x.main_category}}
+                            {{ form_x.main_category }}
                         </div>
                         <div class="form-bx-2 form-lst">
                             <p>Category</p>
@@ -36,23 +36,23 @@
                         </div>
                         <div class="form-bx-3 form-lst">
                             <p>Location</p>
-                            {{form_x.location}}
+                            {{ form_x.location }}
                         </div>
                         <div class="form-bx-4 form-lst">
                             <p>Currency</p>
-                            {{form_x.currency}}
+                            {{ form_x.currency }}
                         </div>
                         <div class="form-bx-5 form-lst">
                             <p>Date Start</p>
-                            {{ form_x.date_start}}
+                            {{ form_x.date_start }}
                         </div>
                         <div class="form-bx-6 form-lst">
                             <p>Date End</p>
-                            {{ form_x.date_end}}
+                            {{ form_x.date_end }}
                         </div>
                         <div class="form-bx-7 form-lst">
                             <p>Goal</p>
-                            {{form_x.goal}}
+                            {{ form_x.goal }}
                         </div>
 
                         <div class="submit-x form-lst">
@@ -60,6 +60,7 @@
                         </div>
                     </div>
                 </form>
+                <script src="{% static "kickstart/category_ajax.js" %}"></script>
             </div>
         </div>
     </div>
