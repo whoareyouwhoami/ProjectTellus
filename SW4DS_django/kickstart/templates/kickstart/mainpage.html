@@ -1,8 +1,69 @@
 {% extends 'kickstart/base.html' %}
+{% load static %}
 
 {% block content %}
 
+<div class="main-container">
+    <div class="top-bar">
+        <div class="header">
+            <h1>TEAM 11대0</h1>
+        </div>
+    </div>
 
+    <div class="main-bar">
+        <div class="gen-info">
+            <p>데이터공학 프로젝트</p>
+        </div>
+
+        <div class="proj-bx">
+            <div class="info-bx">
+                <h3>Predict your project!</h3>
+            </div>
+
+            <div class="form-bx">
+                <form method="post" id="kickForm">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        <div class="form-bx-1 form-lst">
+                            <p>Main category</p>
+                            {{form_x.main_category}}
+                        </div>
+                        <div class="form-bx-2 form-lst">
+                            <p>Category</p>
+                            <select name="category" id="id_category">
+                                <option value="">---------</option>
+                            </select>
+                        </div>
+                        <div class="form-bx-3 form-lst">
+                            <p>Location</p>
+                            {{form_x.location}}
+                        </div>
+                        <div class="form-bx-4 form-lst">
+                            <p>Currency</p>
+                            {{form_x.currency}}
+                        </div>
+                        <div class="form-bx-5 form-lst">
+                            <p>Date Start</p>
+                            {{ form_x.date_start}}
+                        </div>
+                        <div class="form-bx-6 form-lst">
+                            <p>Date End</p>
+                            {{ form_x.date_end}}
+                        </div>
+                        <div class="form-bx-7 form-lst">
+                            <p>Goal</p>
+                            {{form_x.goal}}
+                        </div>
+
+                        <div class="submit-x form-lst">
+                            <input type="submit" value="Predict" class="submit-btn">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
