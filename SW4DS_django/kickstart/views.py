@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import checkform
+import requests
+
 
 import required.data as data
+import required.keys as req
 
 
 
@@ -29,6 +32,44 @@ def load_cat(request):
 
     return render(request, 'kickstart/category_list.html', {'categories':cat_lst})
 
+## Data cleaning
+def get_currency(curr, amount):
+    """
+     This function converts currency into USD
+     Curerncy rate is taken from https://openexchangerates.org using api
+    """
+
+    # get api response
+    response = requests.get('https://openexchangerates.org/api/latest.json?app_id=' + req.api_key)
+    currency_data = response.json()
+    currency_lst = currency_data['rates']
+
+    curr = curr.upper()
+
+    # converts all currency based on USD
+    if curr != "USD":
+        currency_rate = currency_lst[curr]
+        new_amount = currency_rate * amount
+    else:
+        new_amount = amount
+
+    return new_amount
+
+def get_term_bin(start,end):
+    """
+    Binning project period
+    Result will return a value from 1 to 7
+    """
+    # project period in days
+    date_diff = end - start
+    day_diff = date_diff.days
+
+    # binning function
+    term_bin_fnc = lambda x: '1' if x <= 10 else '2' if x <= 15 else '3' if x <= 21 else '4' if x <= 30 else '5' if x <= 45 else '6' if x <= 60 else '7'
+
+    binning = term_bin_fnc(day_diff)
+
+    return binning
 
 ## View
 def mainpage(request):
