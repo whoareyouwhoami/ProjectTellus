@@ -19,7 +19,7 @@
             <div class="info-bx">
                 <h3>Predict your project!</h3>
             </div>
-
+            <p>{{ msg }}</p>
             <div class="form-bx">
                 <form method="post" id="kickForm" data-cat-url="{% url 'ajax-load-categories' %}" novalidate>
                     {% csrf_token %}
@@ -32,6 +32,15 @@
                             <p>Category</p>
                             <select name="category" id="id_category">
                                 <option value="">---------</option>
+                                {% if cat_lst_length > 0 %}
+                                    {% for i in cat_lst %}
+                                        {% if cat == i %}
+                                            <option value="{{ i }}" selected>{{ i }}</option>
+                                        {% else %}
+                                            <option value="{{ i }}">{{ i }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </select>
                         </div>
                         <div class="form-bx-3 form-lst">
