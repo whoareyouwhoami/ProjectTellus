@@ -4,6 +4,8 @@ from .forms import checkform
 
 import required.data as data
 
+
+
 ## Ajax for category list
 cat = data.data_fin.groupby(('main_category','category')).count().reset_index()
 cat_group = cat[['main_category','category']]
@@ -28,17 +30,55 @@ def load_cat(request):
     return render(request, 'kickstart/category_list.html', {'categories':cat_lst})
 
 
-
 ## View
 def mainpage(request):
+    global ref
+
     if request.method == 'POST':
         form_x = checkform(request.POST)
+
+        # get category value separately
+        cat = request.POST.get('category')
+
+        if form_x.is_valid():
+            main_category = form_x.cleaned_data['main_category']
+            location = form_x.cleaned_data['location']
+            currency = form_x.cleaned_data['currency']
+            date_start = form_x.cleaned_data['date_start']
+            date_end = form_x.cleaned_data['date_end']
+            goal = form_x.cleaned_data['goal']
+
+            # cleaning category value
+            mcat_lst = cat_group.loc[cat_group['main_category'] == main_category]
+            cat_lst = mcat_lst['category'].to_list()
+
+            if cat not in cat_lst:
+                # testing code 1
+                print("Wrong category value")
+                category = ""
+                msg = "Something went wrong"
+            else:
+                category = cat
+                msg = "Successful"
+
+            cat_lst_length = len(cat_lst)
+
+            # list of details to send it to html page
+            ref = {
+                'form_x': form_x,
+                'cat_lst': cat_lst,
+                'cat': category,
+                'cat_lst_length': cat_lst_length,
+                'msg': msg,
+            }
+            # testing code 2
+            print(main_category, category, location, currency, date_start, date_end, goal)
     else:
         form_x = checkform()
+        ref = {
+            'form_x': form_x,
+        }
 
-    ref = {
-        'form_x' : form_x
-    }
     return render(request, 'kickstart/mainpage.html', ref)
 
 
