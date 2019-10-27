@@ -1,7 +1,7 @@
 from django import forms
 
 ## Main category choice
-mcat_choices = [('0', '---------'),('Art', 'Art'), ('Comics', 'Comics'), ('Crafts', 'Crafts'), ('Dance', 'Dance'),
+mcat_choices = [('', '---------'),('Art', 'Art'), ('Comics', 'Comics'), ('Crafts', 'Crafts'), ('Dance', 'Dance'),
                ('Design', 'Design'), ('Fashion', 'Fashion'), ('Film & Video', 'Film & Video'), ('Food', 'Food'),
                ('Games', 'Games'), ('Journalism', 'Journalism'), ('Music', 'Music'), ('Photography', 'Photography'),
                ('Publishing', 'Publishing'), ('Technology', 'Technology'), ('Theater', 'Theater')]
@@ -11,7 +11,7 @@ currency_choices = [('0', '---------'), ('AUD', 'AUD'), ('CAD', 'CAD'), ('CHF', 
                    ('SEK', 'SEK'), ('SGD', 'SGD'), ('USD', 'USD')]
 
 ## Country choice
-country_choices = [('0', '---------'), ('Australia', 'Australia'), ('Austria', 'Austria'), ('Belgium', 'Belgium'),
+country_choices = [('', '---------'), ('Australia', 'Australia'), ('Austria', 'Austria'), ('Belgium', 'Belgium'),
                    ('Canada', 'Canada'), ('Denmark', 'Denmark'), ('France', 'France'), ('Germany', 'Germany'),
                    ('Hong Kong', 'Hong Kong'), ('Ireland', 'Ireland'), ('Italy', 'Italy'), ('Japan', 'Japan'),
                    ('Luxembourg', 'Luxembourg'), ('Mexico', 'Mexico'), ('New Zealand', 'New Zealand'),
