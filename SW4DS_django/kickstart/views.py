@@ -36,18 +36,19 @@ def load_cat(request):
 def get_currency(curr, amount):
     """
      This function converts currency into USD
-     Curerncy rate is taken from https://openexchangerates.org using api
+     Curerncy rate is taken from https://openexchangerates.org using API
+     Currency rate taken from API is based on USD
     """
-
-    # get api response
-    response = requests.get('https://openexchangerates.org/api/latest.json?app_id=' + req.api_key)
-    currency_data = response.json()
-    currency_lst = currency_data['rates']
-
     curr = curr.upper()
 
     # converts all currency based on USD
     if curr != "USD":
+        # get api response
+        response = requests.get('https://openexchangerates.org/api/latest.json?app_id=' + req.api_key)
+        currency_data = response.json()
+        currency_lst = currency_data['rates']
+
+        # convert
         currency_rate = currency_lst[curr]
         new_amount = currency_rate * amount
     else:
@@ -58,7 +59,7 @@ def get_currency(curr, amount):
 def get_term_bin(start,end):
     """
     Binning project period
-    Result will return a value from 1 to 7
+    Result will return a value ranging between 1 and 7
     """
     # project period in days
     date_diff = end - start
@@ -70,6 +71,29 @@ def get_term_bin(start,end):
     binning = term_bin_fnc(day_diff)
 
     return binning
+
+def get_goal_bin(amount):
+    """
+    Binning required goal amount
+    Result will return a value ranging between 1 and 8
+    """
+    # amount = converted USD based amount
+    # binning function
+    goal_bin_fnc = (lambda x: '1' if x <= 500 else '2' if x <= 1000 else '3' if x <= 3000 else '4' if x <= 5000 else '5' if x <= 10000 else '6' if x <= 50000 else '7' if x <= 100000 else '8')
+
+    binning = goal_bin_fnc(amount)
+
+    return binning
+
+def get_month_year(date):
+    """
+    Converting date into %Y-%m format
+    """
+    convert_date = date.strftime("%Y-%m")
+
+    return convert_date
+
+
 
 ## View
 def mainpage(request):
