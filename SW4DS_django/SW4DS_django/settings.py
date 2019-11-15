@@ -66,16 +66,16 @@ WSGI_APPLICATION = 'SW4DS_django.wsgi.application'
 
 
 # Database
-DATABASES = {
-    'default': {
-        'ENGINE': req.db_key['ENGINE'],
-        'NAME': req.db_key['NAME'],
-        'USER': req.db_key['USER'],
-        'PASSWORD': req.db_key['PASSWORD'],
-        'HOST': req.db_key['HOST'],
-        'PORT': req.db_key['PORT'],
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': req.db_key['ENGINE'],
+#         'NAME': req.db_key['NAME'],
+#         'USER': req.db_key['USER'],
+#         'PASSWORD': req.db_key['PASSWORD'],
+#         'HOST': req.db_key['HOST'],
+#         'PORT': req.db_key['PORT'],
+#     }
+# }
 
 
 # Password validation
