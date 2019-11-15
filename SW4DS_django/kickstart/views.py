@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import checkform
 import requests
@@ -7,7 +7,9 @@ import requests
 import required.data as data
 import required.keys as req
 
-
+def to_main(request):
+    response = redirect('/main/')
+    return response
 
 ## Ajax for category list
 cat = data.data_fin.groupby(('main_category','category')).count().reset_index()
