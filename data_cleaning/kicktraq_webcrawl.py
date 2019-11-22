@@ -1,8 +1,5 @@
 """
-- 진행중인 프로젝트는 kickstarter 페이지에서 마치 unsuccessful 처럼 뜬다.
-- 시간이 얼마 안남은 프로젝트는 시간이 줄어드는데 그 해당 class가 몇 분 남았다를 보여주는 class랑 똑같은지는 확인해야됨.
-- 아니면 이거 돌리는 시간을 오후 6시 마다 돌리는 거로 둔다.
-
+- 시간 얼마 안남은 클래스 확인
 """
 
 ## 시간 감소하는 클래스
@@ -39,7 +36,6 @@ def get_currency_type(currency_symb, detail_url):
     global currency_type
     """
     get rate for `kr` and `$` to USD
- 
     """
     driverx = wd.Chrome(path + '/chromedriver')
     driverx.get(detail_url)
@@ -66,7 +62,7 @@ def get_currency_type(currency_symb, detail_url):
         else:
             prj_status = new_driver.find_elements_by_xpath("div[(@class='normal type-18')]")
             if len(prj_status) != 0:
-                # if project is unsuccessful
+                ## if project is unsuccessful
                 # get location
                 location = new_driver.find_elements_by_xpath(
                     "//div[@class='py2 py3-lg flex items-center auto-scroll-x']/a['nowrap navy-700 flex items-center medium mr3 type-12 keyboard-focusable']/span[@class='ml1']")[
@@ -92,15 +88,16 @@ def get_currency_type(currency_symb, detail_url):
 
 
             else:
-                # if project is successful
-
+                ## if project is successful
                 # check if project is ongoing
-                prj_ongoing = new_driver.find_elements_by_xpath("//div[@class='ml5 ml0-lg']/span[@class='block type-16 type-28-md bold dark-grey-500']")
-                if len(prj_ongoing) != 0:
+                prj_ongoing = new_driver.find_elements_by_xpath("//div[@class='ml5 ml0-lg']/div/div/span[@class='block type-16 type-28-md bold dark-grey-500']")
+                prj_end_soon = new_driver.find_elements_by_xpath("//div[@class='ml5 ml0-lg']/div/div/span[@class='block type-16 type-28-md bold red-400']")
+
+                if len(prj_ongoing) != 0 or len(prj_end_soon) != 0:
                     # if project is ongoing
-                    loc = new_driver.find_elements_by_xpath("//div[@class='py2 py3-lg flex items-center auto-scroll-x']/a['nowrap navy-700 flex items-center medium mr3 type-12 keyboard-focusable']/span[@class='ml1']")[3].text
-                    loc_lst = len(loc)
-                    location = loc[loc_lst]
+                    loc = new_driver.find_elements_by_xpath("//div[@class='py2 py3-lg flex items-center auto-scroll-x']/a['nowrap navy-700 flex items-center medium mr3 type-12 keyboard-focusable']/span[@class='ml1']")
+                    locx = int((len(loc)/2)-1)
+                    location = loc[locx].text
                     region = location.split(",")[1].strip()
 
                     # get currency
@@ -109,12 +106,11 @@ def get_currency_type(currency_symb, detail_url):
                     else:
                         currency_type = "USD"
 
-
                 else:
-                    # if project is successful and done
+                    # if project ended
+                    # if project is successful
                     get_pledge = new_driver.find_element_by_xpath("//div[@class='mb3']/div[@class='type-12 medium navy-500']/span[@class='money']").text
                     get_money = new_driver.find_element_by_xpath("//div[@class='mb3']/h3[@class='mb0']/span[@class='money']").text
-
 
                     first_check = get_money[0]
                     if first_check != '$':
@@ -133,7 +129,7 @@ def get_currency_type(currency_symb, detail_url):
                     # pledge_val = int(get_pledge.split(" ")[1].replace(',', ''))
 
         new_driver.close()
-    driverx.back()
+    driverx.close()
     return currency_type
 
 
@@ -152,7 +148,7 @@ def webcrawl(start, end):
         prj_length = len(prj_list)
 
         for i in range(prj_length):
-            print(">> Collecting project",i,"right now...")
+            print(">> Collecting project",i+1,"right now...")
             x = prj_list[i]
             p1 = x.find_element_by_xpath("h2/a")
 
@@ -184,13 +180,13 @@ def webcrawl(start, end):
 
 
                 # finding currency
-                currency_symb = goal[0]
+                currency_t = goal[0]
 
-                if currency_symb == '$' or currency_symb == 'k':
+                if currency_t == '$' or currency_t == 'k':
                     detail_url = p1.get_attribute("href")
-                    currency_symb = get_currency_type(currency_symb, detail_url)
+                    currency_t = get_currency_type(currency_t, detail_url)
 
-                row = [name, blurb, 'success', category, percent, pledged, goal, currency_symb, year + ' ' + launched,
+                row = [name, blurb, 'success', category, percent, pledged, goal, currency_t, year + ' ' + launched,
                        year + ' ' + deadline]
 
 
