@@ -1,14 +1,10 @@
 """
-- 시간 얼마 안남은 클래스 확인
+- 프로젝트 대부분이 정시에 끝나서 crontab 사용시 40분에 시작하여 최대 20분안에 끝나게 만든다.
 """
-
-## 시간 감소하는 클래스
-# ml5 ml0-lg
-# span -> block type-16 type-28-md bold red-400
-
 
 import os
 import re
+import time
 import pandas as pd
 import numpy as np
 import requests
@@ -19,7 +15,7 @@ pd.set_option("display.max_columns", 500)
 pd.set_option("display.width", 1000)
 
 path = os.getcwd()
-driver = wd.Chrome(path + '/chromedriver')
+# driver = wd.Chrome(path + '/chromedriver')
 
 # DataFrame for result
 blurb_df = pd.DataFrame(columns = ['name', 'blurb', 'state', 'category',
@@ -31,6 +27,7 @@ success_currency = {'AU$': 'AUD', 'CA$': 'CAD', 'HK$': 'HKD', 'MX$': 'MXN', 'NZ$
 
 unsuccess_currency = {'Australia': 'AUD', 'Canada': 'CAD', 'Hong Kong': 'HKD', 'Mexico': 'MXN', 'NZ': 'NZD', 'Singapore': 'SGD'}
 
+currfix = ['£','€','CHF','¥']
 
 def get_currency_type(currency_symb, detail_url):
     global currency_type
@@ -134,6 +131,8 @@ def get_currency_type(currency_symb, detail_url):
 
 
 def webcrawl(start, end):
+    timestart = time.time()
+    driver = wd.Chrome(path + '/chromedriver')
     global blurb_df
     for page in range(start,end+1):
         print("==================================")
@@ -182,7 +181,7 @@ def webcrawl(start, end):
                 # finding currency
                 currency_t = goal[0]
 
-                if currency_t == '$' or currency_t == 'k':
+                if currency_t not in currfix:
                     detail_url = p1.get_attribute("href")
                     currency_t = get_currency_type(currency_t, detail_url)
 
@@ -196,3 +195,4 @@ def webcrawl(start, end):
     print("==================================")
     print("!COMPLETED!")
     print("==================================")
+    print("Completed in {} seconds...".format(round(time.time()-timestart),2))
