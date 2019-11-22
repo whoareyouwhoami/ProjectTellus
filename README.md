@@ -5,12 +5,14 @@ Project Tellus
 
 데이터공학 프로젝트
 
-> 목차  
-> 1\. Kickstater란?  
-> 2\. [아키텍쳐]()  
-> 3\. [서버 구성]()  
-> 4\. [데이터 전처리]()  
-> 5\. [모델링 구성]()
+> 목차
+
+1.  Kickstater란?  
+2.  [아키텍쳐]()  
+3.  [서버 구성]()
+      - [AWS Ubuntu EC2 + Python Django](documentation/python_django.md)
+4.  [데이터 전처리]()  
+5.  [모델링 구성]()
 
 ## Kickstarter
 
@@ -26,5 +28,5 @@ Kickstarter는 투자자와 아이디어를 가진 창업자 또는 스타트업
 
 ### 사용중인 AWS 기술들
 
-  - EC2  
+  - EC2 \#\#\#
   - RDS
