@@ -51,7 +51,7 @@ class WebcrawlClean(KicktraqOpen):
     def conv_amount(self, amount, curr_t):
         # usd_pledged_real
         # usd_goal_real
-        if curr_t != "USD":
+        if curr_t != "USD" and curr_t != "USD (*)":
             curr_r = currency_rate[curr_t]
             new_amount = amount/curr_r
         else:
@@ -315,9 +315,11 @@ class KicktraqCrawl(KicktraqPage):
 
                 # Project Title
                 name = p1.text
+                name = name.replace("'", "")
 
                 # Project Content
                 blurb = x.find_element_by_xpath("div[not(@class)]").text
+                blurb = blurb.replace("'", "")
 
                 # if `blurb` is not empty
                 if blurb != "":
@@ -364,6 +366,9 @@ class KicktraqCrawl(KicktraqPage):
                             print("Inserted in database")
                             dfx = pd.DataFrame([main_dct])
                             blurb_df = blurb_df.append(dfx, sort=False, ignore_index=True)
+                        else:
+                            # !!
+                            print("Data exist")
 
 
         print("==================================")
@@ -377,8 +382,8 @@ class KicktraqCrawl(KicktraqPage):
 
 
 # Example
-# a = KicktraqCrawl()
-# a.webcrawl(1,2,"dayone")
+a = KicktraqCrawl()
+a.webcrawl(1,2,"dayone")
 # ...
 # ...
 # a.quitWeb()
