@@ -9,6 +9,7 @@ import datetime
 import pandas as pd
 from datetime import datetime
 from selenium import webdriver as wd
+import database.db as dbt
 
 pd.set_option("display.max_columns", 500)
 pd.set_option("display.width", 1000)
@@ -352,8 +353,17 @@ class KicktraqCrawl(KicktraqPage):
                         # merging results
                         main_dct.update(collect)
                         print(main_dct)
-                        dfx = pd.DataFrame([main_dct])
-                        blurb_df = blurb_df.append(dfx, sort=False, ignore_index=True)
+
+                        row_sql = dbt.DBcls.sqlselect(main_dct)
+                        dbt.cur.execute(row_sql)
+                        chk_row = dbt.cur.fetchall()
+
+                        if len(chk_row) == 0:
+                            insert_sql = dbt.DBcls.sqlinsert()
+                            dbt.cur.execute(insert_sql, main_dct)
+                            print("Inserted in database")
+                            dfx = pd.DataFrame([main_dct])
+                            blurb_df = blurb_df.append(dfx, sort=False, ignore_index=True)
 
 
         print("==================================")
@@ -372,3 +382,4 @@ class KicktraqCrawl(KicktraqPage):
 # ...
 # ...
 # a.quitWeb()
+dbt.DBcls.clcn()
