@@ -20,6 +20,7 @@ blurb_df = pd.DataFrame(columns = ['collected_date','name', 'blurb', 'state', 'c
                                    'funding_rate', 'pledged', 'goal','currency_type', 'usd_pledged_real', 'usd_goal_real',
                                    'launched', 'deadline', 'term','term_bin', 'usd_goal_real_bin'])
 
+
 success_currency = {'AU$': 'AUD', 'CA$': 'CAD', 'HK$': 'HKD', 'MX$': 'MXN', 'NZ$': 'NZD', 'US$': 'USD', 'S$': 'SGD'}
 
 unsuccess_currency = {'AU':'AUD', 'Australia': 'AUD', 'Canada': 'CAD', 'Hong Kong': 'HKD', 'Mexico': 'MXN', 'NZ': 'NZD', 'Singapore': 'SGD'}
@@ -211,18 +212,18 @@ class KicktraqPage(WebcrawlClean):
         term = self.get_term(launched, deadline)
         term_bin = self.get_term_bin(term)
 
-        res_dct_pass = {'state': ['success'],
-                        'backers': [backers],
-                        'pledged': [pledged],
-                        'goal': [goal],
-                        'currency_type': [currency_t],
-                        'usd_pledged_real': [usd_pledged],
-                        'usd_goal_real': [usd_goal],
-                        'launched': [launched],
-                        'deadline': [deadline],
-                        'term': [term],
-                        'term_bin': [term_bin],
-                        'usd_goal_real_bin': [usd_goal_real_bin]
+        res_dct_pass = {'state': 'success',
+                        'backers': backers,
+                        'pledged': pledged,
+                        'goal': goal,
+                        'currency_type': currency_t,
+                        'usd_pledged_real': usd_pledged,
+                        'usd_goal_real': usd_goal,
+                        'launched': launched,
+                        'deadline': deadline,
+                        'term': term,
+                        'term_bin': term_bin,
+                        'usd_goal_real_bin': usd_goal_real_bin
                         }
 
         return res_dct_pass
@@ -255,18 +256,18 @@ class KicktraqPage(WebcrawlClean):
         term = self.get_term(launched, deadline)
         term_bin = self.get_term_bin(term)
 
-        res_dct_fail = {'state': ['fail'],
-                        'backers': [backers],
-                        'pledged': [pledged],
-                        'goal': [goal],
-                        'currency_type': [currency_t],
-                        'usd_pledged_real': [usd_pledged],
-                        'usd_goal_real': [usd_goal],
-                        'launched': [launched],
-                        'deadline': [deadline],
-                        'term': [term],
-                        'term_bin': [term_bin],
-                        'usd_goal_real_bin': [usd_goal_real_bin]
+        res_dct_fail = {'state': 'fail',
+                        'backers': backers,
+                        'pledged': pledged,
+                        'goal': goal,
+                        'currency_type': currency_t,
+                        'usd_pledged_real': usd_pledged,
+                        'usd_goal_real': usd_goal,
+                        'launched': launched,
+                        'deadline': deadline,
+                        'term': term,
+                        'term_bin': term_bin,
+                        'usd_goal_real_bin': usd_goal_real_bin
                         }
 
         return res_dct_fail
@@ -341,17 +342,17 @@ class KicktraqCrawl(KicktraqPage):
                         collect = {}
 
                     if len(collect) != 0:
-                        main_dct = {'collected_date': [current_date],
-                                    'name': [name],
-                                    'blurb': [blurb],
-                                    'category': [category],
-                                    'funding_rate': [percent]}
+                        main_dct = {'collected_date': current_date,
+                                    'name': name,
+                                    'blurb': blurb,
+                                    'category': category,
+                                    'funding_rate': percent}
 
 
                         # merging results
                         main_dct.update(collect)
                         print(main_dct)
-                        dfx = pd.DataFrame(main_dct)
+                        dfx = pd.DataFrame([main_dct])
                         blurb_df = blurb_df.append(dfx, sort=False, ignore_index=True)
 
 
