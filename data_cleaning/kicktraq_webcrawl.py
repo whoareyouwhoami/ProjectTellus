@@ -26,6 +26,11 @@ unsuccess_currency = {'AU':'AUD', 'Australia': 'AUD', 'Canada': 'CAD', 'Hong Kon
 
 currfix = ['£','€','CHF','¥']
 
+curr_change = {'£':'GBP', '€':'EUR', 'CHF':'CHF', '¥':'JPY'}
+
+# 2019-11-26 currency rate
+currency_rate = {'AED': 3.6732, 'AFN': 78.813395, 'ALL': 111.387139, 'AMD': 477.766294, 'ANG': 1.71589, 'AOA': 475.1455, 'ARS': 59.656064, 'AUD': 1.474668, 'AWG': 1.8, 'AZN': 1.7025, 'BAM': 1.77655, 'BBD': 2, 'BDT': 84.841984, 'BGN': 1.7763, 'BHD': 0.377006, 'BIF': 1876.459218, 'BMD': 1, 'BND': 1.365996, 'BOB': 6.91879, 'BRL': 4.2272, 'BSD': 1, 'BTC': 0.000138221454, 'BTN': 71.753547, 'BWP': 10.875574, 'BYN': 2.065464, 'BZD': 2.016777, 'CAD': 1.331, 'CDF': 1665.879771, 'CHF': 0.99641, 'CLF': 0.024, 'CLP': 828.799556, 'CNH': 7.026137, 'CNY': 7.0313, 'COP': 3426.198207, 'CRC': 572.689305, 'CUC': 1, 'CUP': 25.75, 'CVE': 100.375, 'CZK': 23.1504, 'DJF': 178, 'DKK': 6.784255, 'DOP': 52.833199, 'DZD': 120.168016, 'EGP': 16.1341, 'ERN': 14.999746, 'ETB': 30.230392, 'EUR': 0.907964, 'FJD': 2.1916, 'FKP': 0.775434, 'GBP': 0.775434, 'GEL': 2.975, 'GGP': 0.775434, 'GHS': 5.573092, 'GIP': 0.775434, 'GMD': 51.1, 'GNF': 9535.428748, 'GTQ': 7.701775, 'GYD': 208.708126, 'HKD': 7.82689, 'HNL': 24.633271, 'HRK': 6.752405, 'HTG': 97.302351, 'HUF': 305.07, 'IDR': 14086.1, 'ILS': 3.46555, 'IMP': 0.775434, 'INR': 71.672507, 'IQD': 1194.465451, 'IRR': 42105, 'ISK': 122.939982, 'JEP': 0.775434, 'JMD': 140.55937, 'JOD': 0.709, 'JPY': 108.982, 'KES': 102.1, 'KGS': 69.670021, 'KHR': 4060.068987, 'KMF': 447.349843, 'KPW': 900, 'KRW': 1175.51, 'KWD': 0.303695, 'KYD': 0.833757, 'KZT': 386.385911, 'LAK': 8865.709957, 'LBP': 1513.018384, 'LKR': 181.049492, 'LRD': 193.049961, 'LSL': 14.727118, 'LYD': 1.408076, 'MAD': 9.659874, 'MDL': 17.40961, 'MGA': 3678.461869, 'MKD': 55.885332, 'MMK': 1515.808652, 'MNT': 2688.420135, 'MOP': 8.066072, 'MRO': 357, 'MRU': 37.499262, 'MUR': 36.602138, 'MVR': 15.4, 'MWK': 737.434911, 'MXN': 19.4476, 'MYR': 4.1805, 'MZN': 64.011999, 'NAD': 14.727319, 'NGN': 362.7, 'NIO': 33.752513, 'NOK': 9.1757, 'NPR': 114.791337, 'NZD': 1.557297, 'OMR': 0.384985, 'PAB': 1, 'PEN': 3.390362, 'PGK': 3.405952, 'PHP': 50.792825, 'PKR': 156.283679, 'PLN': 3.902061, 'PYG': 6468.632579, 'QAR': 3.643061, 'RON': 4.3331, 'RSD': 106.775, 'RUB': 63.9287, 'RWF': 933.614923, 'SAR': 3.750187, 'SBD': 8.267992, 'SCR': 13.699476, 'SDG': 45.136225, 'SEK': 9.63424, 'SGD': 1.36523, 'SHP': 0.775434, 'SLL': 7438.043346, 'SOS': 578.775762, 'SRD': 7.458, 'SSP': 130.26, 'STD': 21560.79, 'STN': 22.4, 'SVC': 8.754496, 'SYP': 514.995156, 'SZL': 14.722213, 'THB': 30.235, 'TJS': 9.692844, 'TMT': 3.5, 'TND': 2.846, 'TOP': 2.320065, 'TRY': 5.74277, 'TTD': 6.760437, 'TWD': 30.505052, 'TZS': 2302.207123, 'UAH': 24.057369, 'UGX': 3702.021093, 'USD': 1, 'UYU': 37.785223, 'UZS': 9515.331052, 'VEF': 248487.642241, 'VES': 22704, 'VND': 23201.13598, 'VUV': 116.36648, 'WST': 2.641719, 'XAF': 595.585478, 'XAG': 0.05927682, 'XAU': 0.00068749, 'XCD': 2.70255, 'XDR': 0.728233, 'XOF': 595.585478, 'XPD': 0.00055444, 'XPF': 108.348951, 'XPT': 0.0011136, 'YER': 250.349961, 'ZAR': 14.76184, 'ZMW': 14.437728, 'ZWL': 322.000001}
+
 
 class KicktraqOpen:
     def __init__(self, url):
@@ -149,6 +154,8 @@ class KicktraqPage(KicktraqOpen):
 
         if currency_t not in currfix:
             currency_t = self.get_currency_type(currency_t, attrurl)
+        else:
+            currency_t = curr_change[currency_t]
 
         res_dct_pass = {'state': ['success'],
                         'backers': [backers],
@@ -175,6 +182,8 @@ class KicktraqPage(KicktraqOpen):
 
         if currency_t not in currfix:
             currency_t = self.get_currency_type(currency_t, attrurl)
+        else:
+            currency_t = curr_change[currency_t]
 
         res_dct_fail ={'state':['fail'],
                        'backers': [backers],
@@ -277,6 +286,7 @@ class KicktraqCrawl(KicktraqPage):
     def quitWeb(self):
         qt = self.driver.close()
         return qt
+
 
 # Example
 # a = KicktraqCrawl()
