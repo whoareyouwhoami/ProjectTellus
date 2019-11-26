@@ -5,6 +5,7 @@ Kicktraq Web Crawling
 import os
 import re
 import time
+import datetime
 import pandas as pd
 from datetime import datetime
 from selenium import webdriver as wd
@@ -16,9 +17,8 @@ path = os.getcwd()
 
 # DataFrame for result
 blurb_df = pd.DataFrame(columns = ['collected_date','name', 'blurb', 'state', 'category',
-                                   'funding_rate', 'pledged', 'goal','currency_type',
-                                   'launched', 'deadline'])
-
+                                   'funding_rate', 'pledged', 'goal','currency_type', 'usd_pledged_real', 'usd_goal_real',
+                                   'launched', 'deadline', 'term','term_bin', 'usd_goal_real_bin'])
 
 success_currency = {'AU$': 'AUD', 'CA$': 'CAD', 'HK$': 'HKD', 'MX$': 'MXN', 'NZ$': 'NZD', 'US$': 'USD', 'S$': 'SGD'}
 
@@ -38,7 +38,50 @@ class KicktraqOpen:
         self.driver = wd.Chrome(path + '/chromedriver')
         self.driver.get(self.url)
 
-class KicktraqPage(KicktraqOpen):
+class WebcrawlClean(KicktraqOpen):
+    def clean_amount(self, amount):
+        # take out ,
+        clamount = amount.replace(',', '')
+        result = re.findall('\d+', clamount)[0]
+        result = int(result)
+        return result
+
+    def conv_amount(self, amount, curr_t):
+        # usd_pledged_real
+        # usd_goal_real
+        if curr_t != "USD":
+            curr_r = currency_rate[curr_t]
+            new_amount = amount/curr_r
+        else:
+            new_amount = amount
+
+        new_amount = round(new_amount,2)
+        return new_amount
+
+    def get_amount_bin(self, amountx):
+        # usd_goal_real_bin
+        goal_bin = (lambda x: '1' if x <= 500 else '2' if x <= 1000 else '3' if x <= 3000 else '4' if x <= 5000 else '5' if x <= 10000 else '6' if x <= 50000 else '7' if x <= 100000 else '8')(amountx)
+        return goal_bin
+
+    def conv_dt(self, datex):
+        # converting date to YYYY-MM-DD format
+        fmt = datex[-2:]
+        convdtime = datetime.strptime(datex, '%Y %B %d' + fmt)
+        convstime = convdtime.strftime("%Y-%m-%d")
+        return convstime
+
+    def get_term(self, start, end):
+        startdate = datetime.strptime(start, "%Y-%m-%d").date()
+        enddate = datetime.strptime(end, "%Y-%m-%d").date()
+        diffdays = (enddate - startdate).days
+        return diffdays
+
+    def get_term_bin(self, term):
+        term_bin = (lambda x: '1' if x <= 10 else '2' if x <= 15 else '3' if x <= 21 else '4' if x <= 30 else '5' if x <= 45 else '6' if x <= 60 else '7')(term)
+        return term_bin
+
+
+class KicktraqPage(WebcrawlClean):
     def __init__(self):
         super().__init__("https://www.kicktraq.com/projects/")
 
@@ -157,13 +200,30 @@ class KicktraqPage(KicktraqOpen):
         else:
             currency_t = curr_change[currency_t]
 
+        pledged = self.clean_amount(pledged)
+        goal = self.clean_amount(goal)
+        usd_pledged = self.conv_amount(pledged, currency_t)
+        usd_goal = self.conv_amount(goal, currency_t)
+        usd_goal_real_bin = self.get_amount_bin(usd_goal)
+        launched = self.conv_dt(launched)
+        deadline = self.conv_dt(deadline)
+
+        term = self.get_term(launched, deadline)
+        term_bin = self.get_term_bin(term)
+
         res_dct_pass = {'state': ['success'],
                         'backers': [backers],
                         'pledged': [pledged],
                         'goal': [goal],
+                        'currency_type': [currency_t],
+                        'usd_pledged_real': [usd_pledged],
+                        'usd_goal_real': [usd_goal],
                         'launched': [launched],
                         'deadline': [deadline],
-                        'currency_type': [currency_t]}
+                        'term': [term],
+                        'term_bin': [term_bin],
+                        'usd_goal_real_bin': [usd_goal_real_bin]
+                        }
 
         return res_dct_pass
 
@@ -185,13 +245,29 @@ class KicktraqPage(KicktraqOpen):
         else:
             currency_t = curr_change[currency_t]
 
-        res_dct_fail ={'state':['fail'],
-                       'backers': [backers],
-                       'pledged': [pledged],
-                       'goal': [goal],
-                       'launched': [launched],
-                       'deadline': [deadline],
-                       'currency_type': [currency_t]}
+        pledged = self.clean_amount(pledged)
+        goal = self.clean_amount(goal)
+        usd_pledged = self.conv_amount(pledged, currency_t)
+        usd_goal = self.conv_amount(goal, currency_t)
+        usd_goal_real_bin = self.get_amount_bin(usd_goal)
+        launched = self.conv_dt(launched)
+        deadline = self.conv_dt(deadline)
+        term = self.get_term(launched, deadline)
+        term_bin = self.get_term_bin(term)
+
+        res_dct_fail = {'state': ['fail'],
+                        'backers': [backers],
+                        'pledged': [pledged],
+                        'goal': [goal],
+                        'currency_type': [currency_t],
+                        'usd_pledged_real': [usd_pledged],
+                        'usd_goal_real': [usd_goal],
+                        'launched': [launched],
+                        'deadline': [deadline],
+                        'term': [term],
+                        'term_bin': [term_bin],
+                        'usd_goal_real_bin': [usd_goal_real_bin]
+                        }
 
         return res_dct_fail
 
@@ -271,6 +347,7 @@ class KicktraqCrawl(KicktraqPage):
                                     'category': [category],
                                     'funding_rate': [percent]}
 
+
                         # merging results
                         main_dct.update(collect)
                         print(main_dct)
@@ -291,3 +368,6 @@ class KicktraqCrawl(KicktraqPage):
 # Example
 # a = KicktraqCrawl()
 # a.webcrawl(1,2,"dayone")
+# ...
+# ...
+# a.quitWeb()
