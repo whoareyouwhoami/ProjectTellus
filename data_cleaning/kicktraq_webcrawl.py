@@ -106,7 +106,7 @@ class KicktraqPage(WebcrawlClean):
         self.currency_symb = currency_symb
         self.detail_url = detail_url
 
-        self.driverx = wd.Chrome(path + '/chromedriver')
+        self.driverx = wd.Chrome(path + '/chromedriver', options=chrome_options)
         self.driverx.get(self.detail_url)
 
         content = self.driverx.find_element_by_xpath("//div[@id='project-info-text']")
@@ -127,7 +127,7 @@ class KicktraqPage(WebcrawlClean):
         else:  # for `$`
             content = self.driverx.find_element_by_id('button-backthis')
             prj_addr = content.get_attribute("href")
-            self.new_driver = wd.Chrome(path + '/chromedriver')
+            self.new_driver = wd.Chrome(path + '/chromedriver', options=chrome_options)
             self.new_driver.get(prj_addr)
 
             # check if project is successful or not
