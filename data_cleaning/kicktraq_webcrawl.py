@@ -10,9 +10,14 @@ import pandas as pd
 from datetime import datetime
 from selenium import webdriver as wd
 import database.db as dbt
+from selenium.webdriver.chrome.options import Options
 
+# Options
 pd.set_option("display.max_columns", 500)
 pd.set_option("display.width", 1000)
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
 
 path = os.getcwd()
 
@@ -37,7 +42,7 @@ currency_rate = {'AED': 3.6732, 'AFN': 78.813395, 'ALL': 111.387139, 'AMD': 477.
 class KicktraqOpen:
     def __init__(self, url):
         self.url = url
-        self.driver = wd.Chrome(path + '/chromedriver')
+        self.driver = wd.Chrome(path + '/chromedriver', options=chrome_options)
         self.driver.get(self.url)
 
 class WebcrawlClean(KicktraqOpen):
@@ -135,9 +140,11 @@ class KicktraqPage(WebcrawlClean):
                     # if project is unsuccessful
                     # get location
                     loc = self.new_driver.find_elements_by_xpath("//div[@class='py2 py3-lg flex items-center auto-scroll-x']/a['nowrap navy-700 flex items-center medium mr3 type-12 keyboard-focusable']/span[@class='ml1']")
-                    locx = int((len(loc) / 2) - 1)
+                    locx = len(loc) - 1
                     location = loc[locx].text
                     region = location.split(",")[1].strip()
+                    print(location)
+                    print(region)
 
                     # get currency
                     if region in unsuccess_currency:
@@ -153,9 +160,11 @@ class KicktraqPage(WebcrawlClean):
                     if len(prj_ongoing) != 0 or len(prj_end_soon) != 0:
                         # if project is ongoing
                         loc = self.new_driver.find_elements_by_xpath("//div[@class='py2 py3-lg flex items-center auto-scroll-x']/a['nowrap navy-700 flex items-center medium mr3 type-12 keyboard-focusable']/span[@class='ml1']")
-                        locx = int((len(loc) / 2) - 1)
+                        locx = len(loc) - 1
                         location = loc[locx].text
                         region = location.split(",")[1].strip()
+                        print(location)
+                        print(region)
 
                         # get currency
                         if region in unsuccess_currency:
@@ -279,6 +288,7 @@ class KicktraqCrawl(KicktraqPage):
         super().__init__()
 
     def webcrawl(self, start, end, text):
+        print("Initiating crawling...")
         global collect
         global blurb_df
 
@@ -346,6 +356,7 @@ class KicktraqCrawl(KicktraqPage):
 
                     if len(collect) != 0:
                         main_dct = {'collected_date': current_date,
+                                    'updated_date': current_date,
                                     'name': name,
                                     'blurb': blurb,
                                     'category': category,
@@ -358,17 +369,27 @@ class KicktraqCrawl(KicktraqPage):
 
                         row_sql = dbt.DBcls.sqlselect(main_dct)
                         dbt.cur.execute(row_sql)
-                        chk_row = dbt.cur.fetchall()
+                        chk_row = dbt.cur.rowcount
+                        get_row = dbt.cur.fetchone()
+                        print(chk_row)
 
-                        if len(chk_row) == 0:
+                        if chk_row == 0:
                             insert_sql = dbt.DBcls.sqlinsert()
+                            print("Query:", insert_sql)
+
                             dbt.cur.execute(insert_sql, main_dct)
                             print("Inserted in database")
+
                             dfx = pd.DataFrame([main_dct])
                             blurb_df = blurb_df.append(dfx, sort=False, ignore_index=True)
                         else:
-                            # !!
-                            print("Data exist")
+                            get_id = get_row['id']
+                            print("Data already exist. Updating to new information...")
+
+                            update_sql = dbt.DBcls.sqlupdate(get_id, main_dct)
+                            print("Query:", update_sql)
+
+                            dbt.cur.execute(update_sql)
 
 
         print("==================================")
@@ -386,5 +407,5 @@ a = KicktraqCrawl()
 a.webcrawl(1,2,"dayone")
 # ...
 # ...
-# a.quitWeb()
+a.quitWeb()
 dbt.DBcls.clcn()
