@@ -74,6 +74,7 @@ WSGI_APPLICATION = 'SW4DS_django.wsgi.application'
 #         'PASSWORD': req.db_key['PASSWORD'],
 #         'HOST': req.db_key['HOST'],
 #         'PORT': req.db_key['PORT'],
+#         'OPTIONS': {'options': '-c search_path='+req.db_key['SCHEMA']}
 #     }
 # }
 
