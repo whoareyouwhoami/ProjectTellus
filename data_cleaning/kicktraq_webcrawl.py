@@ -453,30 +453,32 @@ class KicktraqCrawl(KicktraqPage):
                                     'category': category,
                                     'funding_rate': percent}
 
+                        if collect['country'] != '':
+                            # merging results
+                            main_dct.update(collect)
+                            # print(main_dct)
+                            print('Country:', main_dct['country'])
+                            print('Currency type:', main_dct['currency_type'])
 
-                        # merging results
-                        main_dct.update(collect)
-                        print('Country:', main_dct['country'])
-                        print('Currency type:',main_dct['currency_type'])
+                            row_sql = dbt.DBcls.sqlselect(main_dct)
+                            dbt.cur.execute(row_sql)
+                            chk_row = dbt.cur.rowcount
+                            get_row = dbt.cur.fetchone()
+                            # print(chk_row)
+                            if chk_row == 0:
+                                insert_sql = dbt.DBcls.sqlinsert()
+                                print("Query:", insert_sql)
+                                dbt.cur.execute(insert_sql, main_dct)
+                                print("Inserted in database\n")
 
-                        row_sql = dbt.DBcls.sqlselect(main_dct)
-                        dbt.cur.execute(row_sql)
-                        chk_row = dbt.cur.rowcount
-                        get_row = dbt.cur.fetchone()
-
-                        if chk_row == 0:
-                            insert_sql = dbt.DBcls.sqlinsert()
-                            print("Query:",insert_sql)
-                            dbt.cur.execute(insert_sql, main_dct)
-                            print("Inserted in database\n")
-
+                            else:
+                                print("Data already exist. Updating to new information...")
+                                get_id = get_row['id']
+                                update_sql = dbt.DBcls.sqlupdate(get_id, main_dct)
+                                print("Query:", update_sql, '\n')
+                                dbt.cur.execute(update_sql)
                         else:
-                            print("Data already exist. Updating to new information...")
-                            get_id = get_row['id']
-                            update_sql = dbt.DBcls.sqlupdate(get_id, main_dct)
-                            print("Query:",update_sql,'\n')
-                            dbt.cur.execute(update_sql)
-
+                            pass
 
 
         print("==================================")
