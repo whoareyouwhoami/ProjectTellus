@@ -23,7 +23,6 @@ country_choices = [('', '---------'), ('Australia', 'Australia'), ('Austria', 'A
 class DBform(models.Model):
     search_id = models.AutoField(primary_key=True)
     main_category = models.CharField(max_length=100,choices=mcat_choices)
-    category = models.CharField(max_length=100)
     location = models.CharField(max_length=100,choices=country_choices)
     currency = models.CharField(max_length=100,choices=currency_choices)
     date_start = models.DateField()
