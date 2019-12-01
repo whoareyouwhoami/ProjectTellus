@@ -9,7 +9,7 @@ import datetime
 import pandas as pd
 from datetime import datetime
 from selenium import webdriver as wd
-import database.db as dbt
+import SW4DS_django.database.db as dbt
 from selenium.webdriver.chrome.options import Options
 
 # Options

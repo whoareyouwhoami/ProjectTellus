@@ -14,11 +14,7 @@
         <div class="gen-info">
             <p>데이터공학 프로젝트</p>
         </div>
-            {% if messages %}
-                {% for message in messages %}
-                    {{message}}
-                {% endfor %}
-            {% endif %}
+
         <div class="proj-bx">
             <div class="info-bx">
                 <h3>Predict your project!</h3>
@@ -61,14 +57,59 @@
             </div>
         </div>
     </div>
+
     {% if main_category %}
-        <div class="result-bar">
-            <p> Your input for main category</p>
-            {{ main_category }}
+    <div class="bot-bar">
+        <div class="bot-bar-top">
+            <div class="bbt_l g_bar">
+                <div class="res-ttl">
+                    <h4>Your project result...</h4>
+                </div>
+                <div class="z z1">
+                    <p>Category:</p>
+                    <p>{{ main_category }}</p>
+                </div>
+                <div class="z z2">
+                    <p>Location:</p>
+                    <p>{{ location }}</p>
+                </div>
+                <div class="z z3">
+                    <p>Currency:</p>
+                    <p>{{ currency }}</p>
+                </div>
+                <div class="z z4">
+                    <p>Date start:</p>
+                    <p>{{ date_start }}</p>
+                </div>
+                <div class="z z5">
+                    <p>Date end:</p>
+                    <p>{{ date_end }}</p>
+                </div>
+                <div class="z z6">
+                    <p>Your goal:</p>
+                    <p>{{ goal }}</p>
+                </div>
+                <div class="z z7">
+                    <p>Model Prediction:</p>
+                    <p class="prj-rs">Funding Success </p>
+                </div>
 
+            </div>
+            <div class="bbt_r g_bar">
+                {{ html_success_term|safe }}
+            </div>
         </div>
-    {% endif %}
 
+        <div class="bot-bar-below">
+            <div class="bbb-l g_bar" >
+                {{ html_goal_dist|safe }}
+            </div>
+            <div class="bbb-r g_bar">
+                {{ html_pledge_pp|safe }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
 </div>
 
