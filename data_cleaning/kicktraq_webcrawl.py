@@ -39,6 +39,10 @@ country_cursym = {'AU': '$', 'Australia': '$', 'Canada': '$', 'Denmark': 'DKK', 
 country_cursign = {'AU': 'AUD', 'Australia': 'AUD', 'Canada': 'CAD', 'Denmark': 'DKK', 'Hong Kong': 'HKD', 'Japan': 'JPY', 'Mexico': 'MXN', 'New Zealand': 'NZD', 'Norway': 'NOK', 'UK': 'GBP', 'US': 'USD', 'Sweden': 'SEK', 'Singapore': 'SGD', 'Switzerland': 'CHF'}
 
 
+month_str = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+month_int = [1,2,3,4,5,6,7,8,9,10,11,12]
+month_dict = dict(zip(month_str, month_int))
+
 
 # 2019-11-29 currency rate
 # currency_rate = {'AED': 3.67294, 'AFN': 78.488715, 'ALL': 111.366429, 'AMD': 477.643925, 'ANG': 1.718723, 'AOA': 490.921, 'ARS': 59.7836, 'AUD': 1.475547, 'AWG': 1.8, 'AZN': 1.7025, 'BAM': 1.776316, 'BBD': 2, 'BDT': 84.831426, 'BGN': 1.77644, 'BHD': 0.376993, 'BIF': 1874.266469, 'BMD': 1, 'BND': 1.364788, 'BOB': 6.909796, 'BRL': 4.1894, 'BSD': 1, 'BTC': 0.000131988977, 'BTN': 71.559511, 'BWP': 10.87353, 'BYN': 2.107897, 'BZD': 2.014168, 'CAD': 1.32892, 'CDF': 1663.774438, 'CHF': 0.999624, 'CLF': 0.024, 'CLP': 836.299391, 'CNH': 7.024966, 'CNY': 7.0194, 'COP': 3504.68892, 'CRC': 561.219026, 'CUC': 1, 'CUP': 25.75, 'CVE': 100.7, 'CZK': 23.218009, 'DJF': 178, 'DKK': 6.788803, 'DOP': 52.800507, 'DZD': 120.205945, 'EGP': 16.1166, 'ERN': 14.999703, 'ETB': 30.536398, 'EUR': 0.908684, 'FJD': 2.1911, 'FKP': 0.775819, 'GBP': 0.775819, 'GEL': 2.97, 'GGP': 0.775819, 'GHS': 5.573357, 'GIP': 0.775819, 'GMD': 51.15, 'GNF': 9527.068875, 'GTQ': 7.694292, 'GYD': 208.499132, 'HKD': 7.82628, 'HNL': 24.601971, 'HRK': 6.761144, 'HTG': 97.060976, 'HUF': 304.124977, 'IDR': 14114.6, 'ILS': 3.4737, 'IMP': 0.775819, 'INR': 71.785006, 'IQD': 1192.923651, 'IRR': 42105, 'ISK': 122.499995, 'JEP': 0.775819, 'JMD': 140.55937, 'JOD': 0.709, 'JPY': 109.562, 'KES': 102.89, 'KGS': 69.670113, 'KHR': 4074.453665, 'KMF': 447.849773, 'KPW': 900, 'KRW': 1179.24, 'KWD': 0.304129, 'KYD': 0.832751, 'KZT': 385.985803, 'LAK': 8858.904662, 'LBP': 1511.104191, 'LKR': 180.616256, 'LRD': 193.000002, 'LSL': 14.736115, 'LYD': 1.407021, 'MAD': 9.642889, 'MDL': 17.494842, 'MGA': 3680.764949, 'MKD': 55.907583, 'MMK': 1505.383821, 'MNT': 2688.612672, 'MOP': 8.056128, 'MRO': 357, 'MRU': 37.452432, 'MUR': 36.671983, 'MVR': 15.41, 'MWK': 735.774765, 'MXN': 19.441454, 'MYR': 4.1765, 'MZN': 64.06, 'NAD': 14.736115, 'NGN': 362.65, 'NIO': 33.70964, 'NOK': 9.190995, 'NPR': 114.495256, 'NZD': 1.554032, 'OMR': 0.38502, 'PAB': 1, 'PEN': 3.381954, 'PGK': 3.401662, 'PHP': 50.845, 'PKR': 155.140125, 'PLN': 3.930198, 'PYG': 6468.75888, 'QAR': 3.639072, 'RON': 4.3467, 'RSD': 106.86, 'RUB': 64.095, 'RWF': 932.664695, 'SAR': 3.750013, 'SBD': 8.267992, 'SCR': 13.699962, 'SDG': 45.079153, 'SEK': 9.54568, 'SGD': 1.366362, 'SHP': 0.775819, 'SLL': 7438.043346, 'SOS': 578.084428, 'SRD': 7.458, 'SSP': 130.26, 'STD': 21560.79, 'STN': 22.35, 'SVC': 8.74438, 'SYP': 515.029856, 'SZL': 14.736116, 'THB': 30.21, 'TJS': 9.687026, 'TMT': 3.51, 'TND': 2.8485, 'TOP': 2.3211, 'TRY': 5.744156, 'TTD': 6.751737, 'TWD': 30.508998, 'TZS': 2300.301993, 'UAH': 24.007175, 'UGX': 3697.282408, 'USD': 1, 'UYU': 37.91418, 'UZS': 9487.711828, 'VEF': 248487.642241, 'VES': 22704, 'VND': 23196.03724, 'VUV': 116.342107, 'WST': 2.643078, 'XAF': 596.057688, 'XAG': 0.05915423, 'XAU': 0.00068667, 'XCD': 2.70255, 'XDR': 0.728518, 'XOF': 596.057688, 'XPD': 0.00054318, 'XPF': 108.434855, 'XPT': 0.00111608, 'YER': 250.400036, 'ZAR': 14.627867, 'ZMW': 14.614141, 'ZWL': 322.000001}
@@ -297,7 +301,15 @@ class KicktraqPage(WebcrawlClean):
         launched = text.split('\n')[3].split(": ")[1].split(' -> ')[0]
         deadline = text.split('\n')[3].split(": ")[1].split(' -> ')[1].split(' (')[0]
 
-        launched = year + ' ' + launched
+        month_start = month_dict.get(text.split('\n')[3].split(": ")[1].split(' -> ')[0].split(" ")[0])
+        month_end = month_dict.get(text.split('\n')[3].split(": ")[1].split(' -> ')[1].split(' (')[0].split(" ")[0])
+
+        if (month_end < month_start):
+            start_year = str(int(year) - 1)
+        else:
+            start_year = year
+
+        launched = start_year + ' ' + launched
         deadline = year + ' ' + deadline
 
         currency_t = goal[0]
@@ -339,6 +351,14 @@ class KicktraqPage(WebcrawlClean):
         year = text.split('\n')[2].split('(')[1][:-1]
         launched = text.split('\n')[2].split(": ")[1].split(' -> ')[0]
         deadline = text.split('\n')[2].split(": ")[1].split(' -> ')[1].split(' (')[0]
+
+        month_start = month_dict.get(text.split('\n')[2].split(": ")[1].split(' -> ')[0].split(" ")[0])
+        month_end = month_dict.get(text.split('\n')[2].split(": ")[1].split(' -> ')[1].split(' (')[0].split(" ")[0])
+
+        if (month_end < month_start):
+            start_year = str(int(year) - 1)
+        else:
+            start_year = year
 
         launched = year + ' ' + launched
         deadline = year + ' ' + deadline
@@ -493,8 +513,8 @@ class KicktraqCrawl(KicktraqPage):
 
 # Example
 a = KicktraqCrawl()
-a.webcrawl(1,1,"dayone")
-a.webcrawl(1,1,"archive")
+a.webcrawl(1,10,"dayone")
+a.webcrawl(20,25,"archive")
 # ...
 # ...
 a.quitWeb()
