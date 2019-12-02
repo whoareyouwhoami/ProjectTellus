@@ -53,12 +53,13 @@ class VisCls():
         ################# 여기요 #################
         term_list = ['10 Days or less', 'above 10 Days and below 15 Days', 'above 15 Days and below 21 Days', 'above 21 Days and below 30 Days', 'above 30 Days and below 45 Days', 'above 45 Days and below 60 Days',
                      'above 60 Days and below 92 Days']
-        title_main = "Rate(%) of Success for "+ self.cate +" Category by Dollar Amount when Funding Period is " + term_list[self.term_bin - 1]
+        title_main = "Rate of success for '"+ self.cate +"' when funding period is " + term_list[self.term_bin - 1]
         title = {'text': title_main}
         ########################################
 
         fig = go.Figure({"data": res_dct, "layout": {"title": title}})
         fig.update_traces(marker_color='#78BD40')
+        fig.update_layout(font={'size':9})
 
         html_str = plot(fig, output_type='div', include_plotlyjs=False)
         return html_str
@@ -78,11 +79,11 @@ class VisCls():
         ################# 여기요 #################
         term_list = ['10 Days or less', 'above 10 Days and below 15 Days', 'above 15 Days and below 21 Days', 'above 21 Days and below 30 Days', 'above 30 Days and below 45 Days', 'above 45 Days and below 60 Days',
                      'above 60 Days and below 92 Days']
-        title = "The Number of Projects for "+ self.cate +" Category by Fundraising Target($) when Funding Period is " + term_list[self.term_bin - 1]
+        title = "Number of projects for '"+ self.cate +"' when funding period is " + term_list[self.term_bin - 1]
         ########################################
 
         fig = go.Figure(data=[suc, fail])
-        fig.update_layout(barmode='stack', title=title)
+        fig.update_layout(barmode='stack', title=title, font={'size':9})
 
         html_str = plot(fig, output_type='div', include_plotlyjs=False)
         return html_str
@@ -117,12 +118,13 @@ class VisCls():
         ################# 여기요 #################
         term_list = ['10 Days or less', 'above 10 Days and below 15 Days', 'above 15 Days and below 21 Days', 'above 21 Days and below 30 Days', 'above 30 Days and below 45 Days', 'above 45 Days and below 60 Days',
                      'above 60 Days and below 92 Days']
-        title_main = "Probability(%) Distribution of Funding Amount($) per Person for "+ self.cate +" Category when Funding Period is " + term_list[self.term_bin - 1]
+        title_main = "Average funding amount(USD) per person for '"+ self.cate +"' when funding period is " + term_list[self.term_bin - 1]
         title = {'text': title_main}
         ########################################
 
         fig = go.Figure({"data": res_dct, "layout": {"title": title}})
         fig.update_traces(marker_color='#78BD40')
+        fig.update_layout(font={'size':9})
 
         html_str = plot(fig, output_type='div', include_plotlyjs=False)
         return html_str
