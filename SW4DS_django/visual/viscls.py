@@ -47,25 +47,26 @@ class VisCls():
             percent_list.append(percent)
 
         res_dct = {'type': 'bar',
-                   'x': ['500달러이하', '1000달러이하', '3000달러이하', '5000달러이하', '10000달러이하', '50000달러이하', '100000이하', '100000초과'],
+                   'x': ['below 500', 'above 500~\nbelow 1000', 'above 1000~\nbelow 3000', 'above 3000~\nbelow 5000', 'above 5000~\nbelow 10000', 'above 10000~\nbelow 50000', 'above 50000~\nbelow 100000', 'above 100000'],
                    'y': percent_list}
 
         ################# 여기요 #################
-        term_list = ['10일 이하', '10일 초과 15일 이하', '15일 초과 21일 이하', '21일 초과 30일 이하', '30일 초과 45일 이하', '45일 초과 60일 이하',
-                     '60일 초과 92일 이하']
-        title_main = term_list[self.term_bin - 1] + ' 기간일 때 ' + self.cate + ' 카테고리의 금액별 성공률'
+        term_list = ['10 Days or less', 'above 10 Days and below 15 Days', 'above 15 Days and below 21 Days', 'above 21 Days and below 30 Days', 'above 30 Days and below 45 Days', 'above 45 Days and below 60 Days',
+                     'above 60 Days and below 92 Days']
+        title_main = "Rate(%) of Success for "+ self.cate +" Category by Dollar Amount when Funding Period is " + term_list[self.term_bin - 1]
         title = {'text': title_main}
         ########################################
 
         fig = go.Figure({"data": res_dct, "layout": {"title": title}})
         fig.update_traces(marker_color='#78BD40')
+
         html_str = plot(fig, output_type='div', include_plotlyjs=False)
         return html_str
 
 
     def g_goal_dist(self):
         df = data.loc[(data['category'] == self.cate) & (data['term_bin'] == self.term_bin)]
-        x_range = ['500달러이하', '1000달러이하', '3000달러이하', '5000달러이하', '10000달러이하', '50000달러이하', '100000이하', '100000초과']
+        x_range = ['below 500', 'above 500~\nbelow 1000', 'above 1000~\nbelow 3000', 'above 3000~\nbelow 5000', 'above 5000~\nbelow 10000', 'above 10000~\nbelow 50000', 'above 50000~\nbelow 100000', 'above 100000']
 
         fin = df.groupby(['state', 'usd_goal_real_bin']).size().to_frame().unstack().fillna(0)
         fin.index.names = [None]
@@ -75,9 +76,9 @@ class VisCls():
         fail = go.Bar(name='failed', x=x_range, y=fin['failed'], marker_color='#FE0002')
 
         ################# 여기요 #################
-        term_list = ['10일 이하', '10일 초과 15일 이하', '15일 초과 21일 이하', '21일 초과 30일 이하', '30일 초과 45일 이하', '45일 초과 60일 이하',
-                     '60일 초과 92일 이하']
-        title = term_list[self.term_bin - 1] + ' 기간일 때 ' + self.cate + ' 카테고리의 목표 금액 분포'
+        term_list = ['10 Days or less', 'above 10 Days and below 15 Days', 'above 15 Days and below 21 Days', 'above 21 Days and below 30 Days', 'above 30 Days and below 45 Days', 'above 45 Days and below 60 Days',
+                     'above 60 Days and below 92 Days']
+        title = "The Number of Projects for "+ self.cate +" Category by Fundraising Target($) when Funding Period is " + term_list[self.term_bin - 1]
         ########################################
 
         fig = go.Figure(data=[suc, fail])
@@ -110,13 +111,13 @@ class VisCls():
             percent_list.append(percent)
 
         res_dct = {'type': 'bar',
-                   'x': ['50달러이하', '100달러이하', '500달러이하', '1000달러이하', '2500달러이하', '5000달러이하', '5000달러초과'],
+                   'x': ['below 50', 'above 50~\nbelow 100', 'above 100~\nbelow 500', 'above 500~\nbelow 1000', 'above 1000~\nbelow 2500', 'above 2500~\nbelow 5000', 'above 5000'],
                    'y': percent_list}
 
         ################# 여기요 #################
-        term_list = ['10일 이하', '10일 초과 15일 이하', '15일 초과 21일 이하', '21일 초과 30일 이하', '30일 초과 45일 이하', '45일 초과 60일 이하',
-                     '60일 초과 92일 이하']
-        title_main = term_list[self.term_bin - 1] + ' 기간일 때 ' + self.cate + ' 카테고리의 1인당 투자 금액 분포'
+        term_list = ['10 Days or less', 'above 10 Days and below 15 Days', 'above 15 Days and below 21 Days', 'above 21 Days and below 30 Days', 'above 30 Days and below 45 Days', 'above 45 Days and below 60 Days',
+                     'above 60 Days and below 92 Days']
+        title_main = "Probability(%) Distribution of Funding Amount($) per Person for "+ self.cate +" Category when Funding Period is " + term_list[self.term_bin - 1]
         title = {'text': title_main}
         ########################################
 
