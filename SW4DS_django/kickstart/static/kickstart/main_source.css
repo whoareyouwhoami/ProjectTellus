@@ -62,12 +62,16 @@ h1,h3, h4 {
 .main-bar {
 	margin: auto;
 	width: 95%;
-
-	padding: 40px 0px 100px 0px;
+	padding: 10px 0px 18px 0px;
 }
 
 .gen-info {
-	margin-bottom: 100px;
+	margin-bottom: 50px;
+}
+
+.gen-info > p{
+	margin: 0px 0px 5px 0px;
+	font-size: 16px;
 }
 
 .proj-bx {
@@ -85,9 +89,9 @@ input {
 	height: 30px;
 	padding-left: 5px;
 	border-radius: 2px;
-	border: 1px solid #EEEEEE;
+	border: 1px solid #ababab;
 
-	font-family: arial;
+	font-family: Arial;
 	font-size: 14px;
 }
 select {
@@ -98,7 +102,7 @@ select {
 
 	font-family: arial;
 	font-size: 14px;
-	width: 130px;
+	width: 140px;
 }
 
 #id_date_start_month, #id_date_end_month {
@@ -111,18 +115,40 @@ select {
 	margin-right: 5px;
 }
 #id_date_start_year, #id_date_end_year {
-	width: 70px;
+	width: 80px;
+}
+
+.fc-tp {
+	margin-bottom: 20px;
+}
+
+#id_blurb {
+	resize: none;
+	font-size: 16px;
+	font-family: Arial;
+	width: 500px;
+	height: 75px;
+	margin-bottom: 20px;
+	border: 1px solid #ababab;
+	border-radius: 4px;
 }
 
 .submit-btn {
-	height: 35px;
-	width: 75px;
+	height: 40px;
+	width: 85px;
 	font-weight: 600;
 	color: #ffff;
 	background-color: #1a8dff;
 	border-radius: 6px;
 	border:none;
+	font-size: 15px;
 }
+
+
+
+
+
+
 
 /* RESULT BAR */
 .bot-bar {

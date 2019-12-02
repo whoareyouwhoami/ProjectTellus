@@ -12,6 +12,7 @@ class checkform(ModelForm):
         exclude = ['search_id', 'amount_usd','bin_term','bin_goal']
         labels = {
             'main_category':_('Main category'),
+            'blurb':_('Description'),
             'location':_('Country'),
             'currency':_('Currency'),
             'goal':_('Amount')

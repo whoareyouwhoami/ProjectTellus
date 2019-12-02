@@ -24,6 +24,7 @@ from datetime import datetime
 class DBform(models.Model):
     search_id = models.AutoField(primary_key=True)
     main_category = models.CharField(max_length=100, choices=mcat_choices)
+    blurb = models.TextField()
     location = models.CharField(max_length=100, choices=country_choices)
     currency = models.CharField(max_length=100, choices=currency_choices)
     date_start = models.DateField(default=datetime.today())

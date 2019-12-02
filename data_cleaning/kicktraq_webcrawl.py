@@ -19,7 +19,8 @@ pd.set_option("display.width", 1000)
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 
-path = os.getcwd()
+# path = os.getcwd()
+path = "/usr/bin"
 
 #########################
 # Required Dictionaries
