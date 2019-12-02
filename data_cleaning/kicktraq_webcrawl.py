@@ -9,7 +9,7 @@ import datetime
 import pandas as pd
 from datetime import datetime
 from selenium import webdriver as wd
-import database.db as dbt
+import SW4DS_django.database.db as dbt
 from selenium.webdriver.chrome.options import Options
 
 # Options
@@ -19,7 +19,8 @@ pd.set_option("display.width", 1000)
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 
-path = os.getcwd()
+# path = os.getcwd()
+path = "/usr/bin"
 
 #########################
 # Required Dictionaries
@@ -38,6 +39,10 @@ country_cursym = {'AU': '$', 'Australia': '$', 'Canada': '$', 'Denmark': 'DKK', 
 
 country_cursign = {'AU': 'AUD', 'Australia': 'AUD', 'Canada': 'CAD', 'Denmark': 'DKK', 'Hong Kong': 'HKD', 'Japan': 'JPY', 'Mexico': 'MXN', 'New Zealand': 'NZD', 'Norway': 'NOK', 'UK': 'GBP', 'US': 'USD', 'Sweden': 'SEK', 'Singapore': 'SGD', 'Switzerland': 'CHF'}
 
+
+month_str = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+month_int = [1,2,3,4,5,6,7,8,9,10,11,12]
+month_dict = dict(zip(month_str, month_int))
 
 
 # 2019-11-29 currency rate
@@ -297,7 +302,15 @@ class KicktraqPage(WebcrawlClean):
         launched = text.split('\n')[3].split(": ")[1].split(' -> ')[0]
         deadline = text.split('\n')[3].split(": ")[1].split(' -> ')[1].split(' (')[0]
 
-        launched = year + ' ' + launched
+        month_start = month_dict.get(text.split('\n')[3].split(": ")[1].split(' -> ')[0].split(" ")[0])
+        month_end = month_dict.get(text.split('\n')[3].split(": ")[1].split(' -> ')[1].split(' (')[0].split(" ")[0])
+
+        if (month_end < month_start):
+            start_year = str(int(year) - 1)
+        else:
+            start_year = year
+
+        launched = start_year + ' ' + launched
         deadline = year + ' ' + deadline
 
         currency_t = goal[0]
@@ -339,6 +352,14 @@ class KicktraqPage(WebcrawlClean):
         year = text.split('\n')[2].split('(')[1][:-1]
         launched = text.split('\n')[2].split(": ")[1].split(' -> ')[0]
         deadline = text.split('\n')[2].split(": ")[1].split(' -> ')[1].split(' (')[0]
+
+        month_start = month_dict.get(text.split('\n')[2].split(": ")[1].split(' -> ')[0].split(" ")[0])
+        month_end = month_dict.get(text.split('\n')[2].split(": ")[1].split(' -> ')[1].split(' (')[0].split(" ")[0])
+
+        if (month_end < month_start):
+            start_year = str(int(year) - 1)
+        else:
+            start_year = year
 
         launched = year + ' ' + launched
         deadline = year + ' ' + deadline
@@ -453,30 +474,32 @@ class KicktraqCrawl(KicktraqPage):
                                     'category': category,
                                     'funding_rate': percent}
 
+                        if collect['country'] != '':
+                            # merging results
+                            main_dct.update(collect)
+                            # print(main_dct)
+                            print('Country:', main_dct['country'])
+                            print('Currency type:', main_dct['currency_type'])
 
-                        # merging results
-                        main_dct.update(collect)
-                        print('Country:', main_dct['country'])
-                        print('Currency type:',main_dct['currency_type'])
+                            row_sql = dbt.DBcls.sqlselect(main_dct)
+                            dbt.cur.execute(row_sql)
+                            chk_row = dbt.cur.rowcount
+                            get_row = dbt.cur.fetchone()
+                            # print(chk_row)
+                            if chk_row == 0:
+                                insert_sql = dbt.DBcls.sqlinsert()
+                                print("Query:", insert_sql)
+                                dbt.cur.execute(insert_sql, main_dct)
+                                print("Inserted in database\n")
 
-                        row_sql = dbt.DBcls.sqlselect(main_dct)
-                        dbt.cur.execute(row_sql)
-                        chk_row = dbt.cur.rowcount
-                        get_row = dbt.cur.fetchone()
-
-                        if chk_row == 0:
-                            insert_sql = dbt.DBcls.sqlinsert()
-                            print("Query:",insert_sql)
-                            dbt.cur.execute(insert_sql, main_dct)
-                            print("Inserted in database\n")
-
+                            else:
+                                print("Data already exist. Updating to new information...")
+                                get_id = get_row['id']
+                                update_sql = dbt.DBcls.sqlupdate(get_id, main_dct)
+                                print("Query:", update_sql, '\n')
+                                dbt.cur.execute(update_sql)
                         else:
-                            print("Data already exist. Updating to new information...")
-                            get_id = get_row['id']
-                            update_sql = dbt.DBcls.sqlupdate(get_id, main_dct)
-                            print("Query:",update_sql,'\n')
-                            dbt.cur.execute(update_sql)
-
+                            pass
 
 
         print("==================================")
@@ -491,8 +514,8 @@ class KicktraqCrawl(KicktraqPage):
 
 # Example
 a = KicktraqCrawl()
-a.webcrawl(1,1,"dayone")
-a.webcrawl(1,1,"archive")
+a.webcrawl(1,10,"dayone")
+a.webcrawl(20,25,"archive")
 # ...
 # ...
 a.quitWeb()

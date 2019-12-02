@@ -19,13 +19,18 @@ country_choices = [('', '---------'), ('Australia', 'Australia'), ('Austria', 'A
                    ('Switzerland', 'Switzerland'), ('the Neterlands', 'the Neterlands'),
                    ('the United Kingdom', 'the United Kingdom'), ('the United States', 'the United States')]
 
-
+import datetime
+from datetime import datetime
 class DBform(models.Model):
     search_id = models.AutoField(primary_key=True)
-    main_category = models.CharField(max_length=100,choices=mcat_choices)
-    location = models.CharField(max_length=100,choices=country_choices)
-    currency = models.CharField(max_length=100,choices=currency_choices)
-    date_start = models.DateField()
-    date_end = models.DateField()
+    main_category = models.CharField(max_length=100, choices=mcat_choices)
+    blurb = models.TextField()
+    location = models.CharField(max_length=100, choices=country_choices)
+    currency = models.CharField(max_length=100, choices=currency_choices)
+    date_start = models.DateField(default=datetime.today())
+    date_end = models.DateField(default=datetime.today())
     goal = models.PositiveIntegerField()
+    amount_usd = models.FloatField()
+    bin_term = models.PositiveIntegerField()
+    bin_goal = models.PositiveIntegerField()
 
