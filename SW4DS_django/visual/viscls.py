@@ -47,7 +47,7 @@ class VisCls():
             percent_list.append(percent)
 
         res_dct = {'type': 'bar',
-                   'x': ['below 500', 'above 500~\nbelow 1000', 'above 1000~\nbelow 3000', 'above 3000~\nbelow 5000', 'above 5000~\nbelow 10000', 'above 10000~\nbelow 50000', 'above 50000~\nbelow 100000', 'above 100000'],
+                   'x': ['below 500', 'above 500~<br>below 1000', 'above 1000~<br>below 3000', 'above 3000~<br>below 5000', 'above 5000~<br>below 10000', 'above 10000~<br>below 50000', 'above 50000~<br>below 100000', 'above 100000'],
                    'y': percent_list}
 
         ################# 여기요 #################
@@ -67,7 +67,7 @@ class VisCls():
 
     def g_goal_dist(self):
         df = data.loc[(data['category'] == self.cate) & (data['term_bin'] == self.term_bin)]
-        x_range = ['below 500', 'above 500~\nbelow 1000', 'above 1000~\nbelow 3000', 'above 3000~\nbelow 5000', 'above 5000~\nbelow 10000', 'above 10000~\nbelow 50000', 'above 50000~\nbelow 100000', 'above 100000']
+        x_range = ['below 500', 'above 500~<br>below 1000', 'above 1000~<br>below 3000', 'above 3000~<br>below 5000', 'above 5000~<br>below 10000', 'above 10000~<br>below 50000', 'above 50000~<br>below 100000', 'above 100000']
 
         fin = df.groupby(['state', 'usd_goal_real_bin']).size().to_frame().unstack().fillna(0)
         fin.index.names = [None]
@@ -112,7 +112,7 @@ class VisCls():
             percent_list.append(percent)
 
         res_dct = {'type': 'bar',
-                   'x': ['below 50', 'above 50~\nbelow 100', 'above 100~\nbelow 500', 'above 500~\nbelow 1000', 'above 1000~\nbelow 2500', 'above 2500~\nbelow 5000', 'above 5000'],
+                   'x': ['below 50', 'above 50~<br>below 100', 'above 100~<br>below 500', 'above 500~<br>below 1000', 'above 1000~<br>below 2500', 'above 2500~<br>below 5000', 'above 5000'],
                    'y': percent_list}
 
         ################# 여기요 #################
