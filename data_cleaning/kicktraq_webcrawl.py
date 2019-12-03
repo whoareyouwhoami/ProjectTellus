@@ -1,6 +1,7 @@
 """
 Kicktraq Web Crawling
 """
+import sys
 
 import os
 import re
@@ -20,7 +21,7 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 
 # path = os.getcwd()
-path = "/usr/bin"
+
 
 #########################
 # Required Dictionaries
@@ -361,7 +362,7 @@ class KicktraqPage(WebcrawlClean):
         else:
             start_year = year
 
-        launched = year + ' ' + launched
+        launched = start_year + ' ' + launched
         deadline = year + ' ' + deadline
 
         currency_t = goal[0]
@@ -514,8 +515,8 @@ class KicktraqCrawl(KicktraqPage):
 
 # Example
 a = KicktraqCrawl()
-a.webcrawl(1,10,"dayone")
-a.webcrawl(20,25,"archive")
+a.webcrawl(1,1,"dayone")
+
 # ...
 # ...
 a.quitWeb()

@@ -11,6 +11,21 @@ numpy
 # API packages
 requests
 
-# Machine Learning packages
+# Database connection
+psycopg2
+
+# Selenium 
+selenium
+
+# Graph
+plotly
+
+# non-NLP ML Model
+catboost
+
+# NLP ML Model
 sklearn
-xgboost
+
+# pickle
+pickle
+
