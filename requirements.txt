@@ -26,6 +26,3 @@ catboost
 # NLP ML Model
 sklearn
 
-# pickle
-pickle
-
