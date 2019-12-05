@@ -1,0 +1,98 @@
+uWSGI, Nginx, AWS EC2 사용하여 Django 배포
+================
+
+이 문서는 Django 앱을 uWSGI와 Nginx를 사용하여 배포하는 방법에 대해서 배우겠다. 앞서 AWS EC2에 Django
+앱을 설치하는 방법에 대해서 배웠다. 배포를 할때 새로운 유저그룹을 만들어서 하는게 보안상으로 더 안전하다. 그러나 여기서는
+AWS EC2의 기본 유저인 ubuntu 유저를 사용하겠다.
+
+## 시작전
+
+EC2 서버에 접속을 한 뒤 필요한 패키지들을 설치한다. 그 외에 필요한 패키지 설치는 [AWS Ubuntu EC2 와
+Python
+Django](https://github.com/whoareyouwhoami/ProjectTellus/blob/master/documentation/python_django.md)를
+참고하길 바란다.
+
+    sudo apt-get update
+    sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev libpcre3 libpcre3-dev
+
+## uWSGI 설치
+
+**uwsgi 패키지 설치**
+
+예시를 위해 Django 프로젝트 이름과 가상환경 이름을 `srv/ProjectFolder`안에 아래와 같이 만들었다고 가정하자.
+
+  - 가상환경 : `prj_venv`
+  - 프로젝트 : `someproject`
+
+먼저 Django 프로젝트가 있는 폴더로 이동해 가상환경을 활성화 해준다.
+
+    source prj_venv/bin/activate
+
+그리고 `pip`를 사용하여 `uwsgi`를 설치해준다.
+
+    pip install uwsgi
+
+그 후에 `conf`, `run`, `log` 파일을 만들어 준다. 여기서는 프로젝트 안에 설치할 것이다. 먼저 프로젝트로 이동
+후 폴더를 만든다.
+
+    # 프로젝트 폴더 이동
+    cd someproject
+    
+    # 이동 후
+    mkdir conf run log
+
+그리고 폴더 안에 들어가 `touch log/uwsgi.log`를 실행해 `log`폴더에 `uwsgi.log`파일을 만든다. 그
+다음 `run` 폴더와 `log` 폴더에 어느 유저나 그룹이 파일을 변경하고 실행할 수 있게 허락을 해준다.
+
+    sudo chmod 777 /srv/ProjectFolder/someproject/run
+    sudo chmod 777 /srv/ProjectFolder/someproject/log
+
+**uwsgi.ini 설정** `conf` 파일로 이동 후 `nano uwsgi.ini`를 사용하여 `uwsgi.ini` 파일을
+만들어 아래 코들들 붙여 넣으면 된다. 필요한 부분을 수정하면 된다.
+
+    [uwsgi]
+    
+    uid = ubuntu
+    gid = ubuntu
+    
+    # 프로젝트 이름 
+    project_name = someproject
+    
+    # 프로젝트가 있는 경로 
+    base_dir = /srv/ProjectFolder/
+    
+    # 가상환경이 있는 경로 
+    virtualenv = %(base_dir)/prj_venv/
+    
+    # manage.py가 있는 폴더 
+    chdir = %(base_dir)/%(project_name)/
+    
+    # wsgi 모듈
+    module =  %(project_name).wsgi:application
+    
+    master = true
+    processes = 4
+    post-buffering = 204800
+    thunder-lock = True
+    uwsgi-socket = %(base_dir)/%(prject_name)/%(prject_name).sock
+    chmod-socket = 666
+    socket-timeout = 300
+    reload-mercy = 8
+    reload-on-as = 512
+    harakiri = 50
+    max-requests = 5000
+    vacuum = true
+    disable-logging = True
+    logto = %(base_dir)/%(project_name)/log/uwsgi.log
+    log-maxsize = 20971520
+    log-backupname = %(base_dir)/%(project_name)/log/old-uwsgi.log
+    touch-reload = %(base_dir)/
+    max-worker-lifetime = 300
+
+이제 `uwsgi.ini` 파일이 정상적으로 돌아가는지 아래 코드를 실행해서 확인하겠다.
+
+``` 
+ uwsgi --ini /srv/ProjectFolder/someproject/conf/uwsgi.ini
+```
+
+uwsgi에 대한 로그를 확인하고 싶으면 `log` 파일에 들어가서 `cat uwsgi.log`을 통해 볼 수 있다.
