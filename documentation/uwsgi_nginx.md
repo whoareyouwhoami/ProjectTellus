@@ -96,3 +96,150 @@ Django](https://github.com/whoareyouwhoami/ProjectTellus/blob/master/documentati
 ```
 
 uwsgi에 대한 로그를 확인하고 싶으면 `log` 파일에 들어가서 `cat uwsgi.log`을 통해 볼 수 있다.
+
+**uwsgi.service 설정** 여기서는 우분투 서비스 매니저인 `systemd`를 사용하여 서비스를 등록할 것이다.
+
+    sudo nano /etc/systemd/system/uwsgi.service
+
+아래 코드를 복사하여 프로젝트 폴더 이름과 가상환경 이름을 변경해주면 된다.
+
+    [Unit]
+    Description=uWSGI instance to serve updateMe project
+    After=network.target
+    
+    [Service]
+    User=ubuntu
+    Group=ubuntu
+    WorkingDirectory=/srv/ProjectFolder/someproject/
+    Environment="PATH=/srv/ProjectFolder/prj_venv/bin"
+    ExecStart=/srv/ProjectFolder/prj_venv/bin/uwsgi --ini /srv/ProjectFolder/someproject/conf/uwsgi.ini
+    Restart=always
+    KillSignal=SIGQUIT
+    Type=notify
+    NotifyAccess=all
+    
+    [Install]
+    WantedBy=multi-user.target
+
+마지막으로 `systemd`를 변경했으니 변경된 구성들이 잘 돌아가게 새로고친 후 `uwsgi`가 시스템에서 돌아갈 수 있게
+활성화 해준다.
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable uwsgi
+
+아래 코드들을 통해 `uwsgi`를 시작, 재가동, 중단 그리고 상태를 확인 할 있다.
+
+**uwsgi 시작**
+
+    sudo service uwsgi start
+
+**uwsgi 재가동**
+
+    sudo service uwsgi restart
+
+**uwsgi 중단**
+
+    sudo service uwsgi stop
+
+**uwsgi 상태 확인**
+
+    sudo service uwsgi status
+
+<br>
+
+## NGINX 설치
+
+이제 NGINX 설치법에 대해서 알아보겠다. NGINX를 설치하면 기본으로 포트 80을 들을 수 있도록 구성이 되어있어 바로
+브라우저를 켜서 프로젝트 주소를 입력해서 정상적으로 설치가 되었느지 확인할 수 있다.
+
+    sudo apt-get update
+    sudo apt-get install nginx
+
+NGINX를 설치하면 기본적으로 `sites-available` 폴더와 `sites-enabled` 폴더가 있다. 그러나 여기서는
+따로 `nginx-uwsgi.conf` 파일을 만들어서 브라우저에서 받는 요청을 uWSGI서버에 연결을 할 수 있게 설정을 할
+것이다. 먼저 기본으로 설치된 폴더를 제거한 후 실행한다.
+
+    # 기본 폴더 제거
+    sudo rm -rf /etc/nginx/sites-available/default
+    sudo rm -rf /etc/nginx/sites-enabled/default
+    
+    # nginx-uwsgi.conf 생성 
+    sudo nano /etc/nginx/sites-available/nginx-uwsgi.conf
+
+`nginx-uwsgi.conf` 파일에 아래와 같이 복사하고 필요한 부분을 바꾸거나 채워 넣는다.
+
+    upstream someproject_dev {
+        server unix:/srv/ProjectName/someproject/someproject.sock;
+    }
+    
+    server {
+        listen 80;
+        server_name <IP 주소>;
+        charset utf-8;
+    
+        client_max_body_size 128M;
+    
+        location /static {
+        # static 파일이 있는 경로 
+        # staticfile : Django 프로젝트에 사용한 static 파일을 모아둔 폴더 이름
+            alias /srv/ProjectName/someproject/staticfile;
+        }
+    
+        location /media {
+        # media 파일이 있는 경로
+            alias /srv/ProjectName/someproject/mediafile;
+        }
+    
+        location / {
+            include uwsgi_params;
+            uwsgi_pass someproject_dev;
+            uwsgi_read_timeout 300s;
+            uwsgi_send_timeout 300s;
+        }
+    
+        access_log /srv/ProjectName/someproject/log/nginx-access.log;
+        error_log /srv/ProjectName/someproject/log/nginx-error.log;
+    }
+
+이거를 마친 후에는 심볼릭 링크를
+    만들어준다.
+
+    sudo ln -s /etc/nginx/sites-available/nginx-uwsgi.conf /etc/nginx/sites-enabled/nginx-uwsgi.conf
+
+마지막으로 uWSGI 설치에서 했던거처럼 다음 코드를 실행해서 nginx를 활성화 해주면 된다.
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable nginx
+
+**nginx 시작**
+
+    sudo service nginx start
+
+**nginx 테스트** nginx 시작 후 테스트를 해본다. OK가 반환되면 정상적으로 가동된 것이다.
+
+    sudo nginx -t
+
+**nginx 재가동**
+
+    sudo service nginx restart
+
+**nginx 중단**
+
+    sudo service nginx stop
+
+**nginx 상태 확인**
+
+    sudo service nginx status
+
+나중에 서버를 돌리면 접근하는 로그 또는 에러 로그는 아까 만든 `log` 파일에 있으므로 아래의 코드를 실행시켜 확인할 수
+있다.
+
+``` 
+ cat /srv/ProjectName/someproject/log/nginx-access.log
+ cat /srv/ProjectName/someproject/log/nginx-error.log
+```
+
+## 마무리
+
+지금까지 AWS EC2 Ubuntu를 사용하여 Django 프로젝트를 uWSGI와 NGINX 웹 서버를 설치해 배포하는 방법에
+대해서 알아봤다.
