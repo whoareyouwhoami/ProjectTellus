@@ -1,4 +1,4 @@
-AWS Ubuntu EC2 + Python Django
+AWS Ubuntu EC2 와 Python Django
 ================
 
 ### AWS EC2 사용하여 Django 앱 배포
@@ -103,3 +103,10 @@ Python 패키지들을 설치한다.
 | Type       | Port Range |
 | ---------- | ---------- |
 | Custom TCP | 8080       |
+
+### 마무리
+
+이 문서는 AWS EC2 Ubuntu 서버를 사용하여 Django 앱을 설치하고 실행하는 방법에 대해서 배웠다. EC2에
+데이터베이스를 설치해서 사용하는 과정은 [PostgreSQL
+설치](https://github.com/whoareyouwhoami/ProjectCapulus/blob/master/README.md)를
+참고하길 바란다. 다음에는 이 문서에서 작성한 Django 프로젝트를 왭에 배포하는 방법에 대해서 알아보겠다.
