@@ -16,9 +16,9 @@ Project Tellus
         배포](documentation/uwsgi_nginx.md)
 5.  [데이터 전처리]()  
 6.  모델링 구성
-      - [기본 모델 제작](document/modeling_pt.ipynb)
-      - [모델 합체](document/VP_pt.ipynb)
-7. [마치며](document/overall_structure.pdf)
+      - [기본 모델 제작](documentation/modeling_pt.ipynb)
+      - [모델 합체](documentation/VP_pt.ipynb)
+7. [마치며](documentation/overall_structure.pdf)
 
 ## Kickstarter
 
