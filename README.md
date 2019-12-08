@@ -15,7 +15,10 @@ Project Tellus
       - [uWSGI, Nginx, AWS EC2 사용하여 Django
         배포](documentation/uwsgi_nginx.md)
 5.  [데이터 전처리]()  
-6.  [모델링 구성]()
+6.  모델링 구성
+      - [기본 모델 제작](document/modeling_pt.ipynb)
+      - [모델 합체](document/VP_pt.ipynb)
+7. [마치며](document/overall_structure.pdf)
 
 ## Kickstarter
 
