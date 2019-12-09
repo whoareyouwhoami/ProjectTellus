@@ -15,10 +15,7 @@ Project Tellus
       - [uWSGI, Nginx, AWS EC2 사용하여 Django
         배포](documentation/uwsgi_nginx.md)
 5.  [데이터 전처리]()  
-6.  모델링 구성
-      - [기본 모델 제작](documentation/modeling_pt.ipynb)
-      - [모델 합체](documentation/VP_pt.ipynb)
-7. [마치며](documentation/overall_structure.pdf)
+6.  [모델링 구성]()
 
 ## Kickstarter
 
@@ -44,12 +41,16 @@ Kickstarter는 투자자와 아이디어를 가진 창업자 또는 스타트업
 
 #### 모델 아키텍쳐
 
-![모델 아키텍쳐](documentation/figures/model_arch.jpeg) 머신러닝 모델을 돌리기 위해서 크롤링
-코드로 받은 데이들을 데이터베이스에 저장했다. \<NLP + Non-NLP 간단히 요약\>
+![모델 아키텍쳐](documentation/figures/model_arch.jpeg) 기계학습 모델을 돌리기 위해서 크롤링
+코드로 받은 데이들을 데이터베이스에 저장했다. 그리고 NLP와 Non-NLP 모두 기계학습을 사용했고 Voting 과정을
+거쳐 두 개의 개별적인 모델을 합쳤다. 이를 위해 먼저 Validation Set으로 각 모델에 얼만큼 비중을 주는게 최적인지
+확인했다.
 
 #### 서비스 아키텍쳐
 
-![서비스 아키텍쳐](documentation/figures/web_arch.jpeg) **Django**  
+![서비스 아키텍쳐](documentation/figures/web_arch.jpeg)
+
+**Django**  
 이번 프로젝트는 오픈소스이며 빠르게 개발할 수 있는 Django 웹 프레임워크를 사용했다. 많은 라이브러리를 포함하고 있고
 데이터베이스 관리, URL 파싱도 등 웹 개발에 있어 다양한 면에서 안전하고 편리하다.
 
