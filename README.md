@@ -35,9 +35,12 @@ Kickstarter는 투자자와 아이디어를 가진 창업자 또는 스타트업
 ## 시스템 아키텍쳐
 
 이번 프로젝트는 [Amazon Web Service](https://aws.amazon.com/ko/) 서비스들을 사용하였다.
-![시스템 아키텍쳐](documentation/figures/aws_arch.jpeg) AWS EC2 를 사용하여 왭서버용과
-모델들을 돌려서 학습 시키는 모델링 서버를 사용했다. 그리고 모든 데이터들은 Amazon RDS를 사용해서 관리를
-하였다.
+![시스템 아키텍쳐](documentation/figures/aws_arch.jpeg) AWS EC2를 사용하여 왭서버와 모델링
+서버로 사용하였다.그리고 모든 데이터들은 Amazon RDS로 관리했다. 모델링 서버에서는 `crontab`을 사용해서
+크롤링해서 받은 데이터들을 데이터베이스에 저장하고 그 외에도 API로 환률 값들을 받는 작업, 모델들을 돌리는 작업
+그리고 이런 작업으로 받은 파일들을 왭 서버에 `scp` 방법으로 이동시키는 작업들을 자동화했다. [Crontab
+사용](documentation/crontab_guide.md)을 보면 `crontab`이 무엇인지 그리고 이 프로젝트에는
+어떻게 사용되었는지 볼 수 있다.
 
 #### 모델 아키텍쳐
 
