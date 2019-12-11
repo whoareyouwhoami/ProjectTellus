@@ -3,7 +3,7 @@ Project Tellus
 
 ### TEAM 11대0
 
-**[kickhelpers.com](%22https://www.kickhelpers.com%22)**
+**[kickhelpers.com](https://www.kickhelpers.com)**
 
 > 목차  
 > 1\. Kickstater란?  
