@@ -3,19 +3,14 @@ Project Tellus
 
 ### TEAM 11대0
 
-데이터공학 프로젝트
+**[kickhelpers.com](%22https://www.kickhelpers.com%22)**
 
-> 목차
-
-1.  Kickstater란?
-2.  프로젝트에 사용된 기술
-3.  [시스템 아키텍쳐]()  
-4.  [서버 구성]()
-      - [AWS Ubuntu EC2 와 Python Django](documentation/python_django.md)
-      - [uWSGI, Nginx, AWS EC2 사용하여 Django
-        배포](documentation/uwsgi_nginx.md)
-5.  [데이터 전처리]()  
-6.  [모델링 구성]()
+> 목차  
+> 1\. Kickstater란?  
+> 2\. 프로젝트에 사용된 기술  
+> 4\. [시스템 아키텍쳐]()  
+> 4\. [데이터 전처리]()  
+> 5\. [모델링 구성]()
 
 ## Kickstarter
 
@@ -36,9 +31,9 @@ Kickstarter는 투자자와 아이디어를 가진 창업자 또는 스타트업
 
 이번 프로젝트는 [Amazon Web Service](https://aws.amazon.com/ko/) 서비스들을 사용하였다.
 ![시스템 아키텍쳐](documentation/figures/aws_arch.jpeg) AWS EC2를 사용하여 왭서버와 모델링
-서버로 사용하였다.그리고 모든 데이터들은 Amazon RDS로 관리했다. 모델링 서버에서는 `crontab`을 사용해서
+서버로 사용하였다.그리고 모든 데이터들은 Amazon RDS로 관리했다. 모델링 서버에서는 `crontab`을 사용하여
 크롤링해서 받은 데이터들을 데이터베이스에 저장하고 그 외에도 API로 환률 값들을 받는 작업, 모델들을 돌리는 작업
-그리고 이런 작업으로 받은 파일들을 왭 서버에 `scp` 방법으로 이동시키는 작업들을 자동화했다. [Crontab
+그리고 파일들을 왭 서버에 `scp` 방법으로 이동시키는 작업들을 자동화했다. [Crontab
 사용](documentation/crontab_guide.md)을 보면 `crontab`이 무엇인지 그리고 이 프로젝트에는
 어떻게 사용되었는지 볼 수 있다.
 
@@ -67,3 +62,14 @@ uWSGI 서버로 HTTP 요청을 처리할 수 있지만 Nginx 왭서버를 추가
 파일들을 처리할 수 있게했다. 동적인 요청이 있다면 그것은 UNIX socket을 통해 uWSGI 서버로 전송이 되어 처리한
 후 다시 Nginx 서버로 전달받아 유저에서 결과를 반환한다. 그 외에도 Nginx 서버는 리버스 프록시를 사용하여 더
 안정하고 Apache 서버와 달리 더 효율적이다.
+
+-----
+
+AWS EC2를 사용해서 Django 앱을 uWSGI, Nginx를 사용해서 배포하는 과정을 아래 링크를 통해 알아볼 수 있다.
+
+  - [AWS Ubuntu EC2 와 Python Django](documentation/python_django.md)
+  - [uWSGI, Nginx, AWS EC2 사용하여 Django 배포](documentation/uwsgi_nginx.md)
+
+-----
+
+<br>
