@@ -97,7 +97,7 @@ Python 패키지들을 설치한다.
 
     python manage.py runserver 0:8080
 
-이에 앞서 AWS EC2 Dashboard에 들어가서 EC2 생성할 떄 사용한 **Security Group**의
+이에 앞서 AWS EC2 Dashboard에 들어가서 EC2 생성할때 사용한 **Security Group**의
 **Inbound**에 다음과 같이 추가하면 된다.
 
 | Type       | Port Range |
@@ -109,4 +109,4 @@ Python 패키지들을 설치한다.
 이 문서는 AWS EC2 Ubuntu 서버를 사용하여 Django 앱을 설치하고 실행하는 방법에 대해서 배웠다. EC2에
 데이터베이스를 설치해서 사용하는 과정은 [PostgreSQL
 설치](https://github.com/whoareyouwhoami/ProjectCapulus/blob/master/README.md)를
-참고하길 바란다. 다음에는 이 문서에서 작성한 Django 프로젝트를 왭에 배포하는 방법에 대해서 알아보겠다.
+참고하길 바란다. 다음에는 이 문서에서 작성한 Django 앱을 인터넷에 배포하는 방법에 대해서 알아보겠다.

@@ -127,13 +127,13 @@ uwsgi에 대한 로그를 확인하고 싶으면 `log` 파일에 들어가서 `c
     sudo systemctl daemon-reload
     sudo systemctl enable uwsgi
 
-아래 코드들을 통해 `uwsgi`를 시작, 재가동, 중단 그리고 상태를 확인 할 있다.
+아래 코드들을 통해 `uwsgi`를 시작, 재시작, 중단 그리고 상태를 확인 할 있다.
 
 **uwsgi 시작**
 
     sudo service uwsgi start
 
-**uwsgi 재가동**
+**uwsgi 재시작**
 
     sudo service uwsgi restart
 
@@ -219,7 +219,7 @@ NGINX를 설치하면 기본적으로 `sites-available` 폴더와 `sites-enabled
 
     sudo nginx -t
 
-**nginx 재가동**
+**nginx 재시작**
 
     sudo service nginx restart
 
@@ -241,5 +241,5 @@ NGINX를 설치하면 기본적으로 `sites-available` 폴더와 `sites-enabled
 
 ## 마무리
 
-지금까지 AWS EC2 Ubuntu를 사용하여 Django 프로젝트를 uWSGI와 NGINX 웹 서버를 설치해 배포하는 방법에
-대해서 알아봤다.
+지금까지 AWS EC2 Ubuntu를 사용하여 Django 프로젝트를 uWSGI와 NGINX를 설치해 배포하는 방법에 대해서
+알아봤다.
