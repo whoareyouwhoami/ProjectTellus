@@ -10,7 +10,10 @@ Project Tellus
 > 2\. 프로젝트에 사용된 기술  
 > 4\. [시스템 아키텍쳐]()  
 > 4\. [데이터 전처리]()  
-> 5\. [모델링 구성]()
+> 5\. 모델링 구성
+  - [개별 모델 생성](documentation/modeling_pt.ipynb)
+  - [모델 융합](documentation/VP_pt.ipynb)
+> 6\. [마치며](documentation/figures/overall_structure.pdf)
 
 ## Kickstarter
 
