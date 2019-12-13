@@ -8,12 +8,14 @@ Project Tellus
 > 목차  
 > 1\. Kickstater란?  
 > 2\. 프로젝트에 사용된 기술  
-> 4\. [시스템 아키텍쳐]()  
-> 4\. [데이터 전처리]()  
-> 5\. 모델링 구성 <br>
+> 3\. 시스템 아키텍쳐  
+> 4\. [데이터 전처리] ()
+> 5\. [웹 크롤링] ()
+> 6\. [인터랙티브 시각화] ()
+> 7\. 모델링 구성 <br>
 > &nbsp; &nbsp; &nbsp; - [개별 모델 생성](documentation/modeling_pt.ipynb) <br>
 > &nbsp; &nbsp; &nbsp; - [모델 융합](documentation/VP_pt.ipynb) <br>
-> 6\. [마치며](documentation/figures/overall_structure.pdf)
+> 8\. [마치며](documentation/figures/overall_structure.pdf)
 
 ## Kickstarter
 
