@@ -78,16 +78,6 @@ import numpy as np
 pd.set_option('max_columns',999)
 pd.set_option('max_rows',200)
 
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-import matplotlib.font_manager as fm
-import seaborn as sns
-sns.set() 
-%matplotlib inline 
-%config InlineBackend.figure_format = 'retina' 
-sns.set_style(style='white')
-sns.set_context(context ='paper')
-
 import datetime
 import os
 from functools import reduce
