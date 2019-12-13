@@ -18,7 +18,7 @@
 
 ### 일정
 
-![](figures/schedule.jpg)
+![](image/schedule.jpg)
 
 ### 제품소개
 
@@ -77,13 +77,7 @@ import pandas as pd
 import numpy as np
 pd.set_option('max_columns',999)
 pd.set_option('max_rows',200)
-
 import datetime
-import os
-from functools import reduce
-
-# 한글 폰트 사용
-plt.rcParams["font.family"] = 'NanumGothic'
 
 df=pd.read_csv('data/projects_fin.csv')
 
