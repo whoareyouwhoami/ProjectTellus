@@ -33,11 +33,11 @@ kicktraq 홈페이지의 여러 카테고리 중에서 정보를 받아올 때�
 
 
 ### Structure
-이 작업을 수행하기 위해 아래와 같은 이름의 4가지의 클래스를 구성하였고, 각 클래스의 역할과 그 안에 속한 함수들은 아래와 같다. 
-**1. KicktraqOpen** : Kicktraq 홈페이지를 Chrome driver를 통해 연다. 
-**2. WebcrawlClean** : Kicktraq에서 받아올 정보를 전처리한다. 
-**3. KicktraqPage** : Kicktraq에서 정보를 받아온다. 
-**4. KicktraqCrawl** : Kicktraq 홈페이지에서 정보를 받아오기 위해 Chrome driver를 제어한다.  
+이 작업을 수행하기 위해 아래와 같은 이름의 4가지의 클래스를 구성하였고, 각 클래스의 역할과 그 안에 속한 함수들은 아래와 같다. <br>
+**1. KicktraqOpen** : Kicktraq 홈페이지를 Chrome driver를 통해 연다. <br>
+**2. WebcrawlClean** : Kicktraq에서 받아올 정보를 전처리한다. <br>
+**3. KicktraqPage** : Kicktraq에서 정보를 받아온다. <br>
+**4. KicktraqCrawl** : Kicktraq 홈페이지에서 정보를 받아오기 위해 Chrome driver를 제어한다. <br>  
 
 ![class_function](https://user-images.githubusercontent.com/31986977/70239782-4bffea80-17af-11ea-940b-f1209c6c4ef9.png)
 
