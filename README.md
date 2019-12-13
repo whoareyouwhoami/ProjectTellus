@@ -6,7 +6,7 @@ Project Tellus
 **[kickhelpers.com](https://www.kickhelpers.com)**
 
 > 목차  
-> 1\. Kickstater란? <br>
+> 1\. Kickhelpers란? <br>
 > &nbsp; &nbsp; &nbsp; - [소개 문서](documentation/Intro_PT.md) <br>
 > 2\. 프로젝트에 사용된 기술  
 > 3\. 시스템 아키텍쳐  
@@ -24,7 +24,7 @@ Project Tellus
 > &nbsp; &nbsp; &nbsp; - [모델 융합](documentation/VP_pt.ipynb) <br>
 > 8\. [마치며](documentation/figures/overall_structure.pdf)
 
-## Kickstarter
+## 데이터 제공처: Kickstarter
 
 Kickstarter는 투자자와 아이디어를 가진 창업자 또는 스타트업을 연결하는 소셜 펀딩 플랫폼이다. 인터넷을 통해 한 명 또는
 소수의 투자자가 아닌, 수많은 사람으로부터 동시에 투자를 받을 수 있으며 투자에 성공한 아이디어 소유자는 투자한 사람들에게 약속된
