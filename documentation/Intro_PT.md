@@ -75,8 +75,6 @@
 ```python
 import pandas as pd
 import numpy as np
-pd.set_option('max_columns',999)
-pd.set_option('max_rows',200)
 import datetime
 
 df=pd.read_csv('data/projects_fin.csv')
