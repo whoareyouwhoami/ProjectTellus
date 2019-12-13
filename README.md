@@ -6,7 +6,8 @@ Project Tellus
 **[kickhelpers.com](https://www.kickhelpers.com)**
 
 > 목차  
-> 1\. Kickstater란? - [소개 문서](documentation/Intro_PT.md) <br>
+> 1\. Kickstater란? <br>
+> &nbsp; &nbsp; &nbsp; - [소개 문서](documentation/Intro_PT.md) <br>
 > 2\. 프로젝트에 사용된 기술  
 > 3\. 시스템 아키텍쳐  
 > 4\. 데이터 전처리 <br>
