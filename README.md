@@ -7,7 +7,7 @@ Project Tellus
 
 > 목차  
 > 1\. Kickhelpers란? <br>
-> &nbsp; &nbsp; &nbsp; - [소개 문서](documentation/Intro_PT.md) <br>
+> &nbsp; &nbsp; &nbsp; - [소개 문서](documentation/Intro_PT.ipynb) <br>
 > 2\. 프로젝트에 사용된 기술  
 > 3\. 시스템 아키텍쳐  
 > 4\. 데이터 전처리 <br>
