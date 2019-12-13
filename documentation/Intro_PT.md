@@ -18,7 +18,7 @@
 
 ### 일정
 
-![](image/schedule.jpg)
+![](figure/schedule.jpg)
 
 ### 제품소개
 
