@@ -1,149 +1,170 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .forms import checkform
+import sys
 import requests
+import pandas as pd
+from .forms import checkform
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from datetime import datetime, date
 
+import visual.viscls as vis
+import MLcall.mlres as mlc
+import database.currency_call as cc
 
-import required.data as data
-import required.keys as req
+change_country = {'Neterlands' : 'the Neterlands', 'UK' : 'the United Kingdom', 'US' : 'the United States'}
 
+class FormClean:
+    def __init__(self):
+        self.text = 'testing'
 
+    def get_currency(self, curr, amount):
+        # converts currency rate to USD
+        self.curr = curr.upper()
+        self.amount = amount
 
-## Ajax for category list
-cat = data.data_fin.groupby(('main_category','category')).count().reset_index()
-cat_group = cat[['main_category','category']]
+        if self.curr != 'USD':
+            currency_lst = cc.currency_lst
+            currency_rate = currency_lst[self.curr]
+            new_amount = round((self.amount/currency_rate),2)
+        else:
+            new_amount = self.amount
 
-def load_cat(request):
-    """
-    Getting list of categories that corresponds to main category and sends them to category_list.html to create <option> tags.
-    Category list will then be updated by AJAX.
-    """
+        return new_amount
 
-    # get main category
-    mcat_id = request.GET.get('main_category')
+    def get_term_bin(self, start, end):
+        # binning project term period
+        self.start = start
+        self.end = end
 
-    # checks if main category exist in data
-    # else return empty list
-    current_mcat = cat_group.loc[cat_group['main_category'] == mcat_id]
-    if len(current_mcat) > 0:
-        cat_lst = current_mcat['category'].to_list()
-    else:
-        cat_lst = []
+        dt_diff = (self.end - self.start).days
+        term_bin_fnc = lambda x: '1' if x <= 10 else '2' if x <= 15 else '3' if x <= 21 else '4' if x <= 30 else '5' if x <= 45 else '6' if x <= 60 else '7'
+        binning = term_bin_fnc(dt_diff)
 
-    return render(request, 'kickstart/category_list.html', {'categories':cat_lst})
+        return binning
 
-## Data cleaning
-def get_currency(curr, amount):
-    """
-     This function converts currency into USD
-     Curerncy rate is taken from https://openexchangerates.org using API
-     Currency rate taken from API is based on USD
-    """
-    curr = curr.upper()
+    def get_goal_bin(self, amount):
+        self.amount = amount
 
-    # converts all currency based on USD
-    if curr != "USD":
-        # get api response
-        response = requests.get('https://openexchangerates.org/api/latest.json?app_id=' + req.api_key)
-        currency_data = response.json()
-        currency_lst = currency_data['rates']
+        goal_bin_fnc = lambda \
+            x: '1' if x <= 500 else '2' if x <= 1000 else '3' if x <= 3000 else '4' if x <= 5000 else '5' if x <= 10000 else '6' if x <= 50000 else '7' if x <= 100000 else '8'
+        binning = goal_bin_fnc(self.amount)
 
-        # convert
-        currency_rate = currency_lst[curr]
-        new_amount = currency_rate * amount
-    else:
-        new_amount = amount
+        return binning
 
-    return new_amount
+    #####################
+    # TEMPORARY
+    #####################
+    def get_daydiff(self, start, end):
+        self.start = start
+        self.end = end
+        dt_diff = (self.end - self.start).days
+        return dt_diff
 
-def get_term_bin(start,end):
-    """
-    Binning project period
-    Result will return a value ranging between 1 and 7
-    """
-    # project period in days
-    date_diff = end - start
-    day_diff = date_diff.days
-
-    # binning function
-    term_bin_fnc = lambda x: '1' if x <= 10 else '2' if x <= 15 else '3' if x <= 21 else '4' if x <= 30 else '5' if x <= 45 else '6' if x <= 60 else '7'
-
-    binning = term_bin_fnc(day_diff)
-
-    return binning
-
-def get_goal_bin(amount):
-    """
-    Binning required goal amount
-    Result will return a value ranging between 1 and 8
-    """
-    # amount = converted USD based amount
-    # binning function
-    goal_bin_fnc = (lambda x: '1' if x <= 500 else '2' if x <= 1000 else '3' if x <= 3000 else '4' if x <= 5000 else '5' if x <= 10000 else '6' if x <= 50000 else '7' if x <= 100000 else '8')
-
-    binning = goal_bin_fnc(amount)
-
-    return binning
-
-def get_month_year(date):
-    """
-    Converting date into %Y-%m format
-    """
-    convert_date = date.strftime("%Y-%m")
-
-    return convert_date
-
-
-
-## View
+########################
+# VIEW
+########################
 def mainpage(request):
-    global ref
-
     if request.method == 'POST':
         form_x = checkform(request.POST)
-
-        # get category value separately
-        cat = request.POST.get('category')
+        x = FormClean()
 
         if form_x.is_valid():
+            print("Searched at", datetime.now())
+
             main_category = form_x.cleaned_data['main_category']
+            blurb = form_x.cleaned_data['blurb']
             location = form_x.cleaned_data['location']
             currency = form_x.cleaned_data['currency']
             date_start = form_x.cleaned_data['date_start']
             date_end = form_x.cleaned_data['date_end']
             goal = form_x.cleaned_data['goal']
 
-            # cleaning category value
-            mcat_lst = cat_group.loc[cat_group['main_category'] == main_category]
-            cat_lst = mcat_lst['category'].to_list()
+            today_date = date.today()
+            day_diff = x.get_daydiff(date_start, date_end)
 
-            if cat not in cat_lst:
-                # testing code 1
-                print("Wrong category value")
-                category = ""
-                msg = "Something went wrong"
+
+            if date_start < today_date or date_end < today_date:
+                messages.error(request, "Please enter proper duration.")
+                return render(request, 'kickstart/mainpage.html', {'form_x': form_x})
+            elif day_diff < 0:
+                messages.error(request, "Please enter proper duration.")
+                return render(request, 'kickstart/mainpage.html', {'form_x': form_x})
             else:
-                category = cat
-                msg = "Successful"
+                messages.success(request, 'See your result below...')
+                amount_usd = x.get_currency(currency, goal)
+                bin_term = x.get_term_bin(date_start, date_end)
+                bin_goal = x.get_goal_bin(amount_usd)
 
-            cat_lst_length = len(cat_lst)
+                xtra = form_x.save(commit=False)
+                xtra.amount_usd = amount_usd
+                xtra.bin_term = bin_term
+                xtra.bin_goal = bin_goal
+                xtra.save()
 
-            # list of details to send it to html page
-            ref = {
-                'form_x': form_x,
-                'cat_lst': cat_lst,
-                'cat': category,
-                'cat_lst_length': cat_lst_length,
-                'msg': msg,
-            }
-            # testing code 2
-            print(main_category, category, location, currency, date_start, date_end, goal)
+                bin_term = int(bin_term)
+                bin_goal = int(bin_goal)
+
+                visx = vis.VisCls(main_category, bin_term, bin_goal)
+
+                ##################
+                # GRAPH
+                ##################
+                html_success_term = visx.g_success_term()
+                html_goal_dist = visx.g_goal_dist()
+                html_pledge_pp = visx.g_pledge_pp()
+                html_succes_cat_amount = visx.g_success_cat_amount()
+                html_success_curr = visx.g_success_by_curr()
+
+                ##################
+                # ML
+                ##################
+                mldct = {'main_category': main_category,
+                         'blurb':blurb,
+                         'country':location,
+                         'currency':currency,
+                         'usd_goal_real' : bin_goal,
+                         'launched_year':date_start.year,
+                         'launched_month': date_start.month,
+                         'launched_day': date_start.day,
+                         'term': day_diff,
+                         }
+
+                mlpd = pd.DataFrame([mldct])
+                mlval = mlc.the_function(mlpd)
+
+                if location in change_country:
+                    country = change_country[location]
+                else:
+                    country = location
+
+                ##################
+                # RESULT
+                ##################
+                context = {'main_category': main_category,
+                           'blurb':blurb,
+                           'country': country,
+                           'currency': currency,
+                           'date_start': date_start,
+                           'date_end': date_end,
+                           'project_period' : day_diff,
+                           'goal': goal,
+                           'goal_usd': amount_usd,
+                           'form_x': form_x,
+                           'html_success_term': html_success_term,
+                           'html_goal_dist': html_goal_dist,
+                           'html_pledge_pp': html_pledge_pp,
+                           'html_succes_cat_amount': html_succes_cat_amount,
+                           'html_success_curr': html_success_curr,
+                           'mlval':mlval,
+                           }
+
+                return render(request, 'kickstart/mainpage.html', context)
+        else:
+            form_x = checkform()
+            messages.error(request, "Something is not right... Check your inputs!")
     else:
         form_x = checkform()
-        ref = {
-            'form_x': form_x,
-        }
 
+    ref = {'form_x': form_x}
     return render(request, 'kickstart/mainpage.html', ref)
-
 

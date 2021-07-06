@@ -2,7 +2,7 @@
 ## Install packages by `pip install -r requirements.txt`
 
 # Django
-Django==2.2.6
+Django
 
 # Data manipulation
 pandas
@@ -11,6 +11,18 @@ numpy
 # API packages
 requests
 
-# Machine Learning packages
+# Database connection
+psycopg2
+
+# Selenium 
+selenium
+
+# Graph
+plotly
+
+# non-NLP ML Model
+catboost
+
+# NLP ML Model
 sklearn
-xgboost
+

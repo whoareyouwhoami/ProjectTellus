@@ -6,75 +6,164 @@
 <div class="main-container">
     <div class="top-bar">
         <div class="header">
-            <h1>TEAM 11대0</h1>
+            <h1><a href="{% url 'home-main'%}">KickHelpers.com</a></h1>
         </div>
     </div>
 
     <div class="main-bar">
         <div class="gen-info">
-            <p>데이터공학 프로젝트</p>
-        </div>
+            <p>Purpose of this project is to help people get the general overview of their crowd funding projects.</p>
+            <p>Find out information about KickHelpers.com
+                [<a href="https://github.com/whoareyouwhoami/KickHelpers.com" target="_blank">Document</a>]
+                [<a href="https://github.com/whoareyouwhoami/KickHelpers.com" target="_blank">Video</a>]</p>
 
+
+        </div>
         <div class="proj-bx">
             <div class="info-bx">
                 <h3>Predict your project!</h3>
             </div>
-            <p>{{ msg }}</p>
             <div class="form-bx">
-                <form method="post" id="kickForm" data-cat-url="{% url 'ajax-load-categories' %}" novalidate>
+                <form method="post" id="kickForm">
                     {% csrf_token %}
                     <div class="form-content">
-                        <div class="form-bx-1 form-lst">
-                            <p>Main category</p>
-                            {{ form_x.main_category }}
+                        <div class="fc-tp">
+                            <div class="form-bx-1 form-lst">
+                                <p>Category</p>
+                                {{ form_x.main_category }}
+                            </div>
+                            <div class="form-bx-3 form-lst">
+                                <p>Location</p>
+                                {{ form_x.location }}
+                            </div>
+                            <div class="form-bx-4 form-lst">
+                                <p>Currency</p>
+                                {{ form_x.currency }}
+                            </div>
+                            <div class="form-bx-5 form-lst">
+                                <p>Date Start</p>
+                                {{ form_x.date_start }}
+                            </div>
+                            <div class="form-bx-6 form-lst">
+                                <p>Date End</p>
+                                {{ form_x.date_end }}
+                            </div>
+                            <div class="form-bx-7 form-lst">
+                                <p>Goal</p>
+                                {{ form_x.goal }}
+                            </div>
                         </div>
-                        <div class="form-bx-2 form-lst">
-                            <p>Category</p>
-                            <select name="category" id="id_category">
-                                <option value="">---------</option>
-                                {% if cat_lst_length > 0 %}
-                                    {% for i in cat_lst %}
-                                        {% if cat == i %}
-                                            <option value="{{ i }}" selected>{{ i }}</option>
-                                        {% else %}
-                                            <option value="{{ i }}">{{ i }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
-                            </select>
-                        </div>
-                        <div class="form-bx-3 form-lst">
-                            <p>Location</p>
-                            {{ form_x.location }}
-                        </div>
-                        <div class="form-bx-4 form-lst">
-                            <p>Currency</p>
-                            {{ form_x.currency }}
-                        </div>
-                        <div class="form-bx-5 form-lst">
-                            <p>Date Start</p>
-                            {{ form_x.date_start }}
-                        </div>
-                        <div class="form-bx-6 form-lst">
-                            <p>Date End</p>
-                            {{ form_x.date_end }}
-                        </div>
-                        <div class="form-bx-7 form-lst">
-                            <p>Goal</p>
-                            {{ form_x.goal }}
-                        </div>
+                        <div class="fc-bt">
+                            <div class="form-bx-8 form-lst">
+                                <p>Description</p>
+                                {{ form_x.blurb }}
+                            </div>
+                            <div class="submit-x ">
+                                <input type="submit" value="Predict" class="submit-btn">
+                                <p>By using this service, you are agreeing to the term that we do not take any
+                responsibility <br> and we are not liable for any damages caused through use of this service.</p>
 
-                        <div class="submit-x form-lst">
-                            <input type="submit" value="Predict" class="submit-btn">
+                            </div>
                         </div>
                     </div>
                 </form>
-                <script src="{% static "kickstart/category_ajax.js" %}"></script>
+
+                {% if messages %}
+                    {% for message in messages %}
+                       {% if message.tags == 'success' %}
+                            <p class="msg-suc">{{ message.message }}</p>
+                        {% else %}
+                            <p class="msg-err">{{ message.message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
-</div>
 
+    {% if main_category %}
+    <div class="bot-bar">
+        <div class="bot-bar-top">
+            <div class="bbt_l g_bar">
+                <div class="res-ttl">
+                    <h4>Your project result for...</h4>
+                </div>
+                <div class="z z1">
+                    <p>Category:</p>
+                    <p>{{ main_category }}</p>
+                </div>
+                <div class="z z2">
+                    <p>Description: </p>
+                    <p>{{ blurb }}</p>
+                </div>
+                <div class="z z3">
+                    <p>Location:</p>
+                    <p>{{ country }}</p>
+                </div>
+                <div class="z z4">
+                    <p>Date start:</p>
+                    <p>{{ date_start }}</p>
+                </div>
+                <div class="z z5">
+                    <p>Date end:</p>
+                    <p>{{ date_end }}</p>
+                </div>
+                <div class="z z6">
+                    <p>Project period:</p>
+                    <p>{{ project_period }} days</p>
+                </div>
+                <div class="z z7">
+                    <p>Your goal:</p>
+                    <p>{{ goal }} {{ currency }}</p>
+                    <p class="conv-amount">(Converted amount: {{ goal_usd }} USD)</p>
+                </div>
+                <div class="z z8">
+                    <div class="z8-res">
+                        <p>Success probability:</p>
+                        <p class="prj-rs">{{ mlval }}% </p>
+                        <small>WARNING: This is just an assumption.</small>
+                    </div>
+                    <div class="z8-img">
+                        {% if mlval >= 50 %}
+                        <div class="sm-img">
+                            <img src="{% static "kickstart/img1.png" %}" alt="image">
+                            <small>From Kakao Corp</small>
+                        </div>
+                        {% else %}
+                        <div class="sm-img">
+                            <img src="{% static "kickstart/img3.png" %}" alt="image">
+                            <small>From Kakao Corp</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="bbt_r g_bar">
+                {{ html_success_term|safe }}
+            </div>
+        </div>
+
+        <div class="bot-bar-below">
+            <div class="bbb-l g_bar" >
+                {{ html_goal_dist|safe }}
+            </div>
+            <div class="bbb-r g_bar">
+                {{ html_pledge_pp|safe }}
+            </div>
+        </div>
+
+        <div class="bot-bar-below">
+            <div class="bbb-l g_bar" >
+                {{ html_succes_cat_amount|safe }}
+            </div>
+            <div class="bbb-r g_bar">
+                {{ html_success_curr|safe }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
 
 
 
